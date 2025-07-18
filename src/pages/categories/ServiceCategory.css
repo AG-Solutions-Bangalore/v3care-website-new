@@ -1,0 +1,426 @@
+/* Main Container */
+.service-grid-container {
+    padding: 1rem 1rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .service-grid-content {
+    padding: 0 1rem;
+  }
+  
+  /* Compact Header with Categories */
+  .service-grid-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+  
+  .service-grid-title-wrapper {
+    flex: 1;
+    min-width: 200px;
+  }
+  
+  .service-grid-main-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 0.25rem;
+    line-height: 1.3;
+  }
+  
+  .service-grid-subtitle {
+    font-size: 0.875rem;
+    color: #666;
+    line-height: 1.4;
+  }
+  
+  .service-grid-nav-and-list {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 2;
+    min-width: 0;
+  }
+  
+  .service-grid-nav {
+    display: flex;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+  
+  .service-grid-nav-button {
+    background: #f3f4f6;
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+  }
+  
+  .service-grid-nav-button:hover {
+    background: #e5e7eb;
+  }
+  
+  .service-grid-list {
+    display: flex;
+    gap: 0.75rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    padding: 0.25rem 0;
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .service-grid-list::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .service-grid-category-item {
+    flex: 0 0 auto;
+    text-decoration: none;
+  }
+  
+  .service-grid-category-item.active .service-grid-category-card {
+    background: #f9fafb;
+    border: 1px solid #e5e7eb;
+  }
+  
+  .service-grid-category-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    width: 80px;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+  }
+  
+  .service-grid-category-card:hover {
+    background: #f9fafb;
+  }
+  
+  .service-grid-category-image {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+    border-radius: 4px;
+  }
+  
+  .service-grid-category-name {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #4b5563;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+  
+  /* Service Card Grid and Items */
+  .service-grid-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1rem;
+  }
+  
+  .service-grid-card-wrapper {
+    position: relative;
+  }
+  
+  .service-grid-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.2s;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .service-grid-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  }
+  
+  .service-grid-card-image-container {
+    position: relative;
+    height: 160px;
+    overflow: hidden;
+  }
+  
+  .service-grid-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .service-grid-card-content {
+    padding: 0.75rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .service-grid-card-title {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: #1a1a1a;
+    margin-bottom: 0.25rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .service-grid-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.5rem;
+  }
+  
+  .service-grid-card-city {
+    font-size: 0.75rem;
+    color: #6c757d;
+    display: flex;
+    align-items: center;
+  }
+  
+  .service-grid-card-icon {
+    margin-right: 0.25rem;
+  }
+  
+  .service-grid-book-now-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #000000;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 0.25rem 0.6rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    height: 28px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    cursor: pointer;
+  }
+  
+  .service-grid-book-now-btn:hover {
+    background: #333;
+  }
+  
+  /* Skeleton Loader */
+  .skeleton {
+    background: #f5f5f5;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .skeleton::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.5) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    animation: shimmer 1.5s infinite;
+  }
+  
+  @keyframes shimmer {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+  
+  /* Loading State */
+  .service-grid-loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+  }
+  
+  .service-grid-loading-content {
+    text-align: center;
+  }
+  
+  .service-grid-loading-text {
+    color: #666;
+    margin-top: 1rem;
+  }
+  
+  /* Error State */
+  .service-grid-error-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+    padding: 2rem;
+  }
+  
+  .service-grid-error-content {
+    background: #fff5f5;
+    border-radius: 8px;
+    padding: 1.5rem;
+    text-align: center;
+    max-width: 500px;
+    width: 100%;
+    border: 1px solid #fed7d7;
+  }
+  
+  .service-grid-error-icon {
+    color: #e53e3e;
+    margin-bottom: 1rem;
+  }
+  
+  .service-grid-error-message {
+    color: #2d3748;
+    margin-bottom: 1.5rem;
+  }
+  
+  .service-grid-error-button {
+    background: #4f46e5;
+    color: white;
+    border: none;
+    padding: 0.5rem 1.25rem;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  
+  .service-grid-error-button:hover {
+    background: #4338ca;
+  }
+  
+  /* Empty State */
+  .service-grid-empty-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+    padding: 2rem;
+    margin-top: 1rem;
+  }
+  
+  .service-grid-empty-content {
+    text-align: center;
+    max-width: 500px;
+  }
+  
+  .service-grid-empty-image {
+    max-width: 150px;
+    margin-bottom: 1.5rem;
+    opacity: 0.7;
+  }
+  
+  .service-grid-empty-title {
+    font-size: 1.25rem;
+    color: #2d3748;
+    margin-bottom: 0.5rem;
+  }
+  
+  .service-grid-empty-text {
+    color: #718096;
+    margin-bottom: 1.5rem;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .service-grid-main-title {
+      font-size: 1.4rem;
+    }
+    
+    .service-grid-header {
+      gap: 0.75rem;
+    }
+  
+    .service-grid-nav-and-list {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.75rem;
+      width: 100%;
+    }
+  
+    .service-grid-list {
+      width: 100%;
+    }
+  
+    .service-grid-grid {
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .service-grid-container {
+      padding: 1rem 0.5rem;
+    }
+    
+    .service-grid-content {
+      padding: 0 0.5rem;
+    }
+    
+    .service-grid-main-title {
+      font-size: 1.3rem;
+    }
+    
+    .service-grid-empty-image {
+      max-width: 120px;
+    }
+  
+    .service-grid-empty-title {
+      font-size: 1.1rem;
+    }
+  
+    .service-grid-grid {
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    }
+  }
+  
+  @media (max-width: 400px) {
+    .service-grid-title-wrapper {
+      min-width: 100%;
+    }
+  
+    .service-grid-nav-and-list {
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+  
+    .service-grid-nav {
+      order: 2;
+      margin-left: auto;
+    }
+  
+    .service-grid-list {
+      order: 1;
+      width: 100%;
+    }
+  
+    .service-grid-grid {
+      grid-template-columns: 1fr;
+    }
+  }

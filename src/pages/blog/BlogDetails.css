@@ -1,0 +1,500 @@
+/* Complete ReactQuill-style CSS with balanced compact spacing */
+
+.read-only-quill {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+
+  color: #333;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.read-only-quill * {
+  box-sizing: border-box;
+
+}
+
+/* Headings with balanced spacing */
+.read-only-quill h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0.75rem 0 0.5rem 0;
+  color: #1a202c;
+  line-height: 1.3;
+}
+
+.read-only-quill h2 {
+  font-size: 1.75rem;
+  font-weight: 600;
+  margin: 0.7rem 0 0.45rem 0;
+  color: #2d3748;
+  line-height: 1.35;
+}
+
+.read-only-quill h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0.65rem 0 0.4rem 0;
+  color: #2d3748;
+  line-height: 1.4;
+}
+
+.read-only-quill h4 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0.6rem 0 0.35rem 0;
+  color: #2d3748;
+  line-height: 1.4;
+}
+
+.read-only-quill h5 {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0.55rem 0 0.3rem 0;
+  color: #2d3748;
+  line-height: 1.45;
+}
+
+.read-only-quill h6 {
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0.5rem 0 0.3rem 0;
+  color: #2d3748;
+  line-height: 1.45;
+}
+
+/* Paragraphs and basic text */
+.read-only-quill p {
+  margin: 0.5rem 0;
+  line-height: 1.55;
+  color: #4a5568;
+}
+
+.read-only-quill p:empty {
+  margin: 0.25rem 0;
+}
+
+.read-only-quill br {
+  display: block;
+  content: "";
+  margin: 0.25rem 0;
+}
+
+/* Lists */
+.read-only-quill ul,
+.read-only-quill ol {
+  margin: 0.5rem 0;
+  padding-left: 1.1rem;
+}
+
+.read-only-quill ul {
+  list-style-type: disc;
+}
+
+.read-only-quill ol {
+  list-style-type: decimal;
+}
+
+.read-only-quill li {
+  margin: 0.25rem 0;
+  line-height: 1.5;
+  color: #4a5568;
+}
+
+.read-only-quill li::marker {
+  color: #718096;
+}
+
+.read-only-quill ul ul,
+.read-only-quill ol ol,
+.read-only-quill ul ol,
+.read-only-quill ol ul {
+  margin: 0.3rem 0;
+}
+
+/* Text formatting */
+.read-only-quill strong,
+.read-only-quill b {
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.read-only-quill em,
+.read-only-quill i {
+  font-style: italic;
+  color: #4a5568;
+}
+
+.read-only-quill u {
+  text-decoration: underline;
+}
+
+.read-only-quill s,
+.read-only-quill strike,
+.read-only-quill del {
+  text-decoration: line-through;
+  color: #718096;
+}
+
+.read-only-quill ins {
+  text-decoration: underline;
+  background-color: #d1fae5;
+  padding: 0.1rem 0.15rem;
+  border-radius: 0.15rem;
+}
+
+.read-only-quill mark {
+  background-color: #fef08a;
+  padding: 0.1rem 0.15rem;
+  border-radius: 0.15rem;
+}
+
+.read-only-quill small {
+  font-size: 0.85rem;
+}
+
+.read-only-quill sup {
+  vertical-align: super;
+  font-size: 0.75rem;
+}
+
+.read-only-quill sub {
+  vertical-align: sub;
+  font-size: 0.75rem;
+}
+
+/* Block elements */
+.read-only-quill blockquote {
+  margin: 0.7rem 0;
+  padding: 0.6rem 1rem;
+  border-left: 3px solid #e2e8f0;
+  background-color: #f7fafc;
+  font-style: italic;
+  color: #4a5568;
+  line-height: 1.5;
+}
+
+.read-only-quill hr {
+  border: none;
+  border-top: 1px solid #e2e8f0;
+  margin: 0.8rem 0;
+}
+
+/* Links */
+.read-only-quill a {
+  color: #3182ce;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.read-only-quill a:hover {
+  color: #2c5282;
+  text-decoration: underline;
+}
+
+/* Images */
+.read-only-quill img {
+  max-width: 100%;
+  height: auto;
+  margin: 0.6rem 0;
+  border-radius: 0.25rem;
+  display: block;
+}
+
+/* Tables */
+.read-only-quill table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.7rem 0;
+  border: 1px solid #e2e8f0;
+}
+
+.read-only-quill th,
+.read-only-quill td {
+  padding: 0.4rem 0.6rem;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+  border-right: 1px solid #e2e8f0;
+}
+
+.read-only-quill th {
+  background-color: #f7fafc;
+  font-weight: 600;
+  color: #2d3748;
+}
+
+.read-only-quill th:last-child,
+.read-only-quill td:last-child {
+  border-right: none;
+}
+
+/* Code */
+.read-only-quill code {
+  background-color: #f7fafc;
+  padding: 0.15rem 0.35rem;
+  border-radius: 0.2rem;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+  font-size: 0.85rem;
+  color: #d63384;
+  border: 1px solid #e2e8f0;
+}
+
+.read-only-quill pre {
+  background-color: #2d3748;
+  color: #e2e8f0;
+  padding: 0.7rem 0.9rem;
+  border-radius: 0.25rem;
+  overflow-x: auto;
+  margin: 0.7rem 0;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
+.read-only-quill pre code {
+  background-color: transparent;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+  border: none;
+}
+
+/* Additional HTML5 elements */
+.read-only-quill kbd {
+  background-color: #2d3748;
+  color: #e2e8f0;
+  padding: 0.15rem 0.25rem;
+  border-radius: 0.2rem;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;
+  font-size: 0.8rem;
+  border: 1px solid #4a5568;
+}
+
+.read-only-quill abbr {
+  border-bottom: 1px dotted #718096;
+  cursor: help;
+}
+
+.read-only-quill cite {
+  font-style: italic;
+  color: #4a5568;
+}
+
+.read-only-quill q {
+  font-style: italic;
+}
+
+.read-only-quill q::before {
+  content: '"';
+}
+
+.read-only-quill q::after {
+  content: '"';
+}
+
+.read-only-quill address {
+  font-style: italic;
+  margin: 0.5rem 0;
+  line-height: 1.5;
+}
+
+.read-only-quill dl {
+  margin: 0.5rem 0;
+}
+
+.read-only-quill dt {
+  font-weight: 600;
+  margin: 0.3rem 0 0.15rem 0;
+  color: #2d3748;
+}
+
+.read-only-quill dd {
+  margin: 0.15rem 0 0.3rem 1rem;
+  color: #4a5568;
+}
+
+.read-only-quill figure {
+  margin: 0.6rem 0;
+}
+
+.read-only-quill figcaption {
+  font-size: 0.85rem;
+  color: #718096;
+  text-align: center;
+  margin-top: 0.3rem;
+}
+
+.read-only-quill fieldset {
+  border: 1px solid #e2e8f0;
+  border-radius: 0.25rem;
+  padding: 0.6rem;
+  margin: 0.5rem 0;
+}
+
+.read-only-quill legend {
+  font-weight: 600;
+  color: #2d3748;
+  padding: 0 0.4rem;
+}
+
+.read-only-quill details {
+  margin: 0.5rem 0;
+}
+
+.read-only-quill summary {
+  font-weight: 600;
+  color: #2d3748;
+  cursor: pointer;
+  margin: 0.3rem 0;
+}
+
+.read-only-quill summary:hover {
+  color: #1a202c;
+}
+
+.read-only-quill meter {
+  width: 100%;
+  height: 0.8rem;
+  margin: 0.4rem 0;
+}
+
+.read-only-quill progress {
+  width: 100%;
+  height: 0.8rem;
+  margin: 0.4rem 0;
+}
+
+.read-only-quill output {
+  display: inline-block;
+  padding: 0.15rem 0.25rem;
+  background-color: #f7fafc;
+  border-radius: 0.2rem;
+}
+
+.read-only-quill template {
+  display: none;
+}
+
+/* Text alignment classes */
+.read-only-quill .ql-align-center {
+  text-align: center;
+}
+
+.read-only-quill .ql-align-right {
+  text-align: right;
+}
+
+.read-only-quill .ql-align-justify {
+  text-align: justify;
+}
+
+/* Text direction */
+.read-only-quill .ql-direction-rtl {
+  direction: rtl;
+  text-align: right;
+}
+
+/* Font sizes */
+.read-only-quill .ql-size-small {
+  font-size: 0.8rem;
+}
+
+.read-only-quill .ql-size-large {
+  font-size: 1.4rem;
+}
+
+.read-only-quill .ql-size-huge {
+  font-size: 2rem;
+}
+
+/* Colors */
+.read-only-quill .ql-color-red {
+  color: #dc2626;
+}
+
+.read-only-quill .ql-color-orange {
+  color: #ea580c;
+}
+
+.read-only-quill .ql-color-yellow {
+  color: #ca8a04;
+}
+
+.read-only-quill .ql-color-green {
+  color: #16a34a;
+}
+
+.read-only-quill .ql-color-blue {
+  color: #2563eb;
+}
+
+.read-only-quill .ql-color-purple {
+  color: #9333ea;
+}
+
+/* Background colors */
+.read-only-quill .ql-bg-red {
+  background-color: #fef2f2;
+}
+
+.read-only-quill .ql-bg-orange {
+  background-color: #fff7ed;
+}
+
+.read-only-quill .ql-bg-yellow {
+  background-color: #fefce8;
+}
+
+.read-only-quill .ql-bg-green {
+  background-color: #f0fdf4;
+}
+
+.read-only-quill .ql-bg-blue {
+  background-color: #eff6ff;
+}
+
+.read-only-quill .ql-bg-purple {
+  background-color: #faf5ff;
+}
+
+/* Remove default margins from first and last elements */
+.read-only-quill > *:first-child {
+  margin-top: 0;
+}
+
+.read-only-quill > *:last-child {
+  margin-bottom: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .read-only-quill {
+    font-size: 14px;
+  }
+  
+  .read-only-quill h1 {
+    font-size: 1.7rem;
+  }
+  
+  .read-only-quill h2 {
+    font-size: 1.5rem;
+  }
+  
+  .read-only-quill h3 {
+    font-size: 1.3rem;
+  }
+  
+  .read-only-quill h4 {
+    font-size: 1.1rem;
+  }
+  
+  .read-only-quill table {
+    font-size: 0.85rem;
+  }
+  
+  .read-only-quill th,
+  .read-only-quill td {
+    padding: 0.35rem 0.5rem;
+  }
+}
