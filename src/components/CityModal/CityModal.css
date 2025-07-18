@@ -1,0 +1,255 @@
+/* Main modal container */
+.city-location-modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    opacity: 0;
+    transition: opacity 0.3s ease-out;
+  }
+  
+  .city-location-modal-container-visible {
+    opacity: 1;
+  }
+  
+  /* Modal content */
+  .city-location-modal-content {
+    transform: translateY(-50px);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 500px;
+    margin-top: 5vh;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .city-location-modal-content-visible {
+    transform: translateY(0);
+  }
+  
+  /* Close button */
+  .city-location-close-button {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    transition: background 0.2s ease;
+  }
+  
+  .city-location-close-button:hover {
+    background: #f1f5f9;
+  }
+  
+  /* Header section */
+  .city-location-header {
+    padding: 12px;
+    text-align: center;
+    background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+  }
+  
+  .city-location-title {
+    color: #2d3748;
+    margin: 0 0 1px 0;
+    font-size: 1.25rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .city-location-subtitle {
+    color: #718096;
+    font-size: 0.875rem;
+    margin: 0 0 20px 0;
+  }
+  
+  /* Content area */
+  .city-location-content {
+    padding: 16px;
+    max-height: 50vh;
+    overflow-y: auto;
+  }
+  
+  /* City buttons container */
+  .city-location-buttons-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 0 -4px;
+  }
+  
+  /* Base city button style */
+  .city-location-button {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #000000;
+    background: #ffffff;
+    color: #2d3748;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 0.85rem;
+    margin: 4px;
+    flex: 1 0 calc(25% - 8px);
+    min-width: 120px;
+    max-width: calc(25% - 8px);
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  .city-location-button:hover, .city-location-button-selected {
+    background: #000000;
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Confirmation section */
+  .city-location-confirmation-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .city-location-confirmation-alert {
+    padding: 16px;
+    background: #fff7ed;
+    border-radius: 8px;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .city-location-confirmation-message {
+    margin: 0;
+    color: #9a3412;
+  }
+  
+  .city-location-confirmation-buttons {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+    justify-content: center;
+  }
+  
+  /* Confirmation button styles */
+  .city-location-confirm-button {
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: none;
+    background: #000000;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 0.85rem;
+    min-width: 120px;
+  }
+  
+  .city-location-cancel-button {
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid #000000;
+    background: #ffffff;
+    color: #2d3748;
+    font-weight: 500;
+    cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 0.85rem;
+    min-width: 120px;
+  }
+  
+  /* Footer */
+  .city-location-footer {
+    padding: 12px 24px;
+    background: #f7fafc;
+    text-align: center;
+    border-top: 1px solid #e2e8f0;
+  }
+  
+  .city-location-footer-text {
+    color: #718096;
+    font-size: 0.75rem;
+  }
+  
+
+  .city-location-loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px 0;
+  }
+  
+  .city-location-error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px;
+  }
+  
+  .city-location-error-message {
+    display: flex;
+    align-items: center;
+    color: #dc3545;
+    margin-bottom: 8px;
+  }
+  
+
+  @media (max-width: 767px) {
+    .city-location-button {
+      flex: 1 0 calc(50% - 8px);
+      max-width: calc(50% - 8px);
+    }
+    .city-location-modal-content {
+      max-width: 400px;
+    }
+  }
+  
+  @media (min-width: 768px) and (max-width: 991px) {
+    .city-location-button {
+      flex: 1 0 calc(25% - 8px);
+      max-width: calc(25% - 8px);
+    }
+    .city-location-modal-content {
+      max-width: 700px;
+    }
+  }
+  
+  @media (min-width: 992px) {
+    .city-location-button {
+      flex: 1 0 calc(16.66% - 8px);
+      max-width: calc(16.66% - 8px);
+    }
+    .city-location-modal-content {
+      max-width: 1050px;
+    }
+  }
+  @media (min-width: 992px) {
+    .city-location-button {
+      font-size: 0.8rem;
+      padding: 8px 6px; 
+    }
+  }

@@ -1,0 +1,8 @@
+.read-only-quill-service {
+    font-size: 16px; /* Adjust the font size as needed */
+    line-height: 1.6; /* Adjust line height for better readability */
+    color: #333; /* Change text color if needed */
+    padding: 0px; /* Add some padding */
+    background-color: #f9f9f9; /* Optional: change background color */
+    border-radius: 1px; /* Optional: add border radius */
+  }

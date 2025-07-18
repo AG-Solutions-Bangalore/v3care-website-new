@@ -1,0 +1,397 @@
+/* Popular Services Section Styles */
+.popular-service-home-section {
+  padding: 30px 0 20px;
+  background-color: #ffffff;
+  position: relative;
+}
+
+.popular-service-home-featured-section {
+  padding: 30px 0 20px;
+  background-color: #f8f8f8;
+  position: relative;
+}
+
+.popular-service-home-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 15px;
+}
+
+.popular-service-home-header {
+  margin-bottom: 40px;
+}
+
+.popular-service-home-header.text-center {
+  text-align: center;
+}
+
+.popular-service-home-header.text-left {
+  text-align: left;
+}
+
+.popular-service-home-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #000000;
+  margin-bottom: 10px;
+  position: relative;
+  display: inline-block;
+}
+
+.popular-service-home-header.text-left .popular-service-home-title::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -8px;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(to right, #f63b3b, #d81d1d);
+  border-radius: 2px;
+}
+
+.popular-service-home-subtitle {
+  font-size: 1rem;
+  color: #666666;
+  margin: 0;
+  font-weight: 400;
+}
+
+.popular-service-home-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  background-color: #ffebee;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  color: #d32f2f;
+}
+
+.popular-service-home-error-icon {
+  margin-right: 10px;
+}
+
+.popular-service-home-retry-btn {
+  display: flex;
+  align-items: center;
+  margin-left: 15px;
+  padding: 5px 12px;
+  background-color: transparent;
+  border: 1px solid #d32f2f;
+  border-radius: 4px;
+  color: #d32f2f;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.popular-service-home-retry-btn:hover {
+  background-color: #d32f2f;
+  color: white;
+}
+
+.popular-service-home-retry-icon {
+  margin-right: 5px;
+}
+
+/* Slider Container Styles */
+.popular-service-home-slider-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  min-height: 300px; /* Prevent layout shift during loading */
+}
+
+.popular-service-home-slider-container {
+  position: relative;
+  padding: 0 10px;
+}
+
+.popular-service-home-slider-1,
+.popular-service-home-slider-2 {
+  padding: 10px 0;
+  overflow: visible;
+  will-change: transform; /* Optimize for GPU acceleration */
+}
+
+/* Grid-Style Slider Card */
+.popular-service-slide {
+  width: 250px !important;
+  height: auto;
+  padding: 5px 0;
+  backface-visibility: hidden; /* Prevent flickering */
+}
+
+.service-grid-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border: 1px solid #f0f0f0;
+  transform: translateZ(0); /* Hardware acceleration */
+}
+
+.service-grid-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.service-grid-card-image-container {
+  position: relative;
+  height: 160px;
+  overflow: hidden;
+  background-color: #f5f5f5; /* Placeholder color */
+}
+
+.service-grid-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.service-grid-card:hover .service-grid-card-image {
+  transform: scale(1.05);
+}
+
+.service-grid-card-content {
+  padding: 0.75rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.service-grid-card-title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin-bottom: 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.service-grid-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.service-grid-card-city {
+  font-size: 0.75rem;
+  color: #6c757d;
+  display: flex;
+  align-items: center;
+}
+
+.service-grid-card-icon {
+  margin-right: 0.25rem;
+}
+
+.service-grid-book-now-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #000000;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.35rem 0.8rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  height: 28px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.service-grid-book-now-btn:hover {
+  background: #333;
+  transform: translateY(-1px);
+}
+
+/* Swiper Navigation Styles */
+.popular-service-home-slider-container .swiper-button-prev-1,
+.popular-service-home-slider-container .swiper-button-next-1,
+.popular-service-home-slider-container .swiper-button-prev-2,
+.popular-service-home-slider-container .swiper-button-next-2 {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+  color: #000000;
+  transition: all 0.3s ease;
+  opacity: 0.9;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+.popular-service-home-slider-container .swiper-button-prev-1:hover,
+.popular-service-home-slider-container .swiper-button-next-1:hover,
+.popular-service-home-slider-container .swiper-button-prev-2:hover,
+.popular-service-home-slider-container .swiper-button-next-2:hover {
+  background: #000000;
+  color: white;
+  opacity: 1;
+  transform: translateY(-50%) scale(1.05);
+}
+
+.popular-service-home-slider-container .swiper-button-prev-1,
+.popular-service-home-slider-container .swiper-button-prev-2 {
+  left: -5px;
+}
+
+.popular-service-home-slider-container .swiper-button-next-1,
+.popular-service-home-slider-container .swiper-button-next-2 {
+  right: -5px;
+}
+
+.popular-service-home-slider-container .swiper-button-disabled {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Modal Styles */
+.modal.fade.show {
+  background-color: rgba(0,0,0,0.5);
+  backdrop-filter: blur(3px);
+}
+
+.modal-content {
+  box-shadow: 0 5px 30px rgba(138, 141, 242, 0.2);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.modal-header {
+  background: #000000;
+  border-bottom: none;
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+  .popular-service-home-section,
+  .popular-service-home-featured-section {
+    padding: 25px 0;
+  }
+  
+  .popular-service-home-title {
+    font-size: 1.8rem;
+  }
+  
+  .popular-service-slide {
+    width: 230px !important;
+  }
+
+  .service-grid-card-image-container {
+    height: 150px;
+  }
+}
+
+@media (max-width: 768px) {
+  .popular-service-home-container {
+    padding: 0 15px;
+  }
+  
+  .popular-service-home-title {
+    font-size: 1.6rem;
+  }
+  
+  .popular-service-home-subtitle {
+    font-size: 0.95rem;
+  }
+  
+  .popular-service-home-header {
+    margin-bottom: 30px;
+  }
+  
+  .popular-service-slide {
+    width: calc(85% - 10px) !important;
+  }
+
+  .popular-service-home-slider-container {
+    padding: 0 15px;
+  }
+
+  .service-grid-card-image-container {
+    height: 140px;
+  }
+  
+  .popular-service-home-slider-container .swiper-button-prev-1,
+  .popular-service-home-slider-container .swiper-button-prev-2 {
+    left: 0;
+  }
+  
+  .popular-service-home-slider-container .swiper-button-next-1,
+  .popular-service-home-slider-container .swiper-button-next-2 {
+    right: 0;
+  }
+}
+
+@media (max-width: 576px) {
+  .popular-service-home-section,
+  .popular-service-home-featured-section {
+    padding: 20px 0;
+  }
+  
+  .popular-service-home-title {
+    font-size: 1.4rem;
+  }
+  
+  .popular-service-slide {
+    width: calc(85% - 5px) !important;
+  }
+
+  .popular-service-home-slider-container {
+    padding: 0 10px;
+  }
+
+  .service-grid-card-image-container {
+    height: 130px;
+  }
+  
+  .service-grid-card-title {
+    font-size: 0.875rem;
+  }
+  
+  .service-grid-book-now-btn {
+    padding: 0.25rem 0.6rem;
+    font-size: 0.7rem;
+    height: 26px;
+  }
+}
+
+@media (max-width: 400px) {
+  .popular-service-slide {
+    width: calc(85% - 5px) !important;
+  }
+
+  .service-grid-card-image-container {
+    height: 120px;
+  }
+  
+  .service-grid-card-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .service-grid-book-now-btn {
+    width: 100%;
+  }
+}
