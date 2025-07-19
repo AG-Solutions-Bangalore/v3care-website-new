@@ -54,7 +54,7 @@ const Navbar = () => {
  
 
   useEffect(() => {
-    if (showMobileSearchModal) {
+    if (isMenuOpen || showMobileSearchModal) {
       document.body.style.overflow = 'hidden';
     } else {
       document.body.style.overflow = '';
@@ -63,7 +63,7 @@ const Navbar = () => {
     return () => {
       document.body.style.overflow = '';
     };
-  }, [showMobileSearchModal]);
+  }, [showMobileSearchModal, isMenuOpen]);
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
