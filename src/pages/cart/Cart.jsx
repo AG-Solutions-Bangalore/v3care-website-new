@@ -97,6 +97,8 @@ const Cart = () => {
     order_km: "0",
     order_address: "",
     order_url: "",
+    order_locality: "",
+    order_sub_locality: "",
     order_flat: "",
     order_landmark: "",
     order_remarks: "",
@@ -210,14 +212,29 @@ const Cart = () => {
 
   const handlePlaceSelect = async (updateQuery) => {
     const addressObject = await autoComplete.getPlace();
+   
+    console.log("addres.address_components",addressObject.address_components)
     const query = addressObject.formatted_address;
     const url = addressObject.url;
     updateQuery(query);
-
+    let subLocality = '';
+    let locality = '';
+  
+    
+    addressObject.address_components.forEach(component => {
+      if (component.types.includes('sublocality_level_1')) {
+        subLocality = component.short_name;
+      }
+      if (component.types.includes('locality')) {
+        locality = component.short_name;
+      }
+    });
     setFormData((prev) => ({
       ...prev,
       order_address: query,
       order_url: url,
+      order_sub_locality: subLocality,
+      order_locality: locality
     }));
   };
 
@@ -328,17 +345,7 @@ const Cart = () => {
     }));
   };
 
-  const loadRazorpayScript = () =>
-    new Promise((resolve) => {
-      const script = document.createElement("script");
-      script.src = "https://checkout.razorpay.com/v1/checkout.js";
-      script.onload = () => resolve(true);
-      script.onerror = () => {
-        console.error("Razorpay SDK failed to load");
-        resolve(false);
-      };
-      document.body.appendChild(script);
-    });
+
   const handleSubmitPayLater = async (e) => {
     if (e && typeof e.preventDefault === "function") {
       e.preventDefault();
