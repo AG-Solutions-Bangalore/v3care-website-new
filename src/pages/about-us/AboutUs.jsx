@@ -17,22 +17,27 @@ const promisesData = [
   {
     title: "Trained Staff",
     content:
-      "Access round-the-clock support through our dedicated helpdesk, available 24/7 to address any issues or queries you may have.",
+      "Our cleaning and technical staff undergo rigorous hands-on training in modern tools, advanced cleaning techniques, safety protocols, and customer interaction standards. We ensure every job is performed with professionalism, precision, and care.",
   },
   {
     title: "Complete Background Check",
     content:
-      "We ensure every team member has undergone a thorough background check, reinforcing your safety and trust.",
+      "Your safety is our priority. All V3care employees are verified through strict background checks, including police verification and identity validation, before joining the field team.",
   },
   {
     title: "Complete Staff Profiling",
     content:
-      "We maintain detailed profiles of our staff to guarantee the best fit for your service needs.",
+      "Every staff member has a detailed service profile, including training certifications, service history, and performance ratings. This helps us deploy the right professional for every service requirement.",
   },
   {
-    title: "Complete Character Check",
+    title: "Character Verification",
     content:
-      "We prioritize integrity by conducting character evaluations on all our employees.",
+      "We uphold a strict character screening process to ensure only trustworthy and respectful individuals represent V3care in your home or workplace. This ensures peace of mind for our clients and builds long-term trust.",
+  },
+  {
+    title: "Why It Matters",
+    content:
+      "When you choose V3care, you're not just booking a cleaning service — you're inviting a trusted, well-trained, and verified professional who treats your space with respect, care, and excellence.",
   },
 ];
 const AboutUs = () => {
@@ -177,7 +182,7 @@ const AboutUs = () => {
           {/* /About */}
 
           {/* Work Section */}
-          <section className="py-16 bg-gray-50 relative overflow-hidden">
+          {/* <section className="py-16 bg-gray-50 relative overflow-hidden">
             <div className="hidden md:block absolute top-0 left-0">
               <img
                 src="assets/img/bg/dotted.png"
@@ -196,8 +201,7 @@ const AboutUs = () => {
               <div className="text-center mb-12">
                 <h1 className="text-3xl font-bold mb-4">How It Works</h1>
                 <p className="text-gray-600 max-w-2xl mx-auto">
-                  Straightforward process designed to make your experience
-                  seamless and hassle-free.
+                We follow a seamless and reliable process that ensures satisfaction at every touchpoint — from booking to service completion.
                 </p>
               </div>
               <div className="flex flex-wrap -mx-4 ">
@@ -211,7 +215,7 @@ const AboutUs = () => {
                         />
                       </span>
                     </div>
-                    <h5 className="font-bold mb-2">Employess</h5>
+                    <h5 className="font-bold mb-2">Employees</h5>
                     <p className="text-gray-600 text-sm  text-center mb-4">
                       Customers can browse or search for specific products or
                       services using categories, filters, or search bars.
@@ -286,8 +290,222 @@ const AboutUs = () => {
                 </div>
               </div>
             </div>
-          </section>
+          </section> */}
+
+
+
+<section className="py-16 bg-gray-50 relative overflow-hidden">
+  {/* Background elements */}
+  <div className="hidden md:block absolute top-0 left-0">
+    <img src="assets/img/bg/dotted.png" alt="img" className="w-full h-auto" />
+  </div>
+  <div className="hidden md:block absolute bottom-0 right-0">
+    <img src="assets/img/bg/bg-13.png" alt="img" className="w-full h-auto" />
+  </div>
+
+  <div className="container mx-auto px-4 bg-[url('assets/img/bg/lines.png')]">
+    {/* Header */}
+    <div className="text-center mb-12">
+      <h1 className="text-3xl font-bold mb-4">How It Works</h1>
+      <p className="text-gray-600 max-w-2xl mx-auto">
+        We follow a seamless and reliable process that ensures satisfaction at every touchpoint — from booking to service completion.
+      </p>
+    </div>
+
+    {/* New Accordion-style layout */}
+    <div className="max-w-7xl mx-auto space-y-4">
+    
+     
+
+      {/* Card 1 */}
+      <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="flex items-start p-6">
+          <div className="bg-gray-100 p-3 rounded-md mr-4 flex-shrink-0">
+            <img   src="assets/img/icons/about-hands.svg" alt="Clients" className="w-8 h-8" />
+          </div>
+          <div className="flex-1">
+            <div className="flex items-center justify-between">
+              <h3 className="text-xl font-bold">Employees – Empowering Customer Support Excellence</h3>
+              <span className="text-[#900201] font-bold text-2xl ml-4">01</span>
+            </div>
+            <div className="mt-4 text-gray-600 space-y-3 text-sm">
+              <p>At V3care, our employees are the heart of our operations. Every team member undergoes rigorous training in cleaning protocols, safety compliance, hygiene standards, and customer interaction.</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className=" text-[16px]  font-semibold text-[#900201] mb-2">Trained Professionals</h4>
+                  <p>Technicians are skilled in deep cleaning, disinfection, pest control, and polishing services using industry-grade tools and eco-friendly products.</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className="  text-[16px] font-semibold text-[#900201] mb-2">Customer Support Executives</h4>
+                  <p>Our support team is available via phone, email, or WhatsApp to help clients with bookings, service queries, rescheduling, and feedback.</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className=" text-[16px] font-semibold text-[#900201] mb-2">Verified & Background Checked</h4>
+                  <p>We ensure all field staff are thoroughly vetted for safety and professionalism.</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className=" text-[16px] font-semibold text-[#900201] mb-2">Digital Readiness</h4>
+                  <p>Staff are equipped with mobile devices to update service status, share images, and capture real-time feedback — enhancing transparency and accountability.</p>
+                </div>
+                
+              </div>
+          
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* 2  */}
+      <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="flex items-start p-6">
+          <div className="bg-gray-100 p-3 rounded-md mr-4 flex-shrink-0">
+            <img       src="assets/img/icons/about-documents.svg" alt="Clients" className="w-8 h-8" />
+          </div>
+          <div className="flex-1">
+            <div className="flex items-center justify-between">
+              <h3 className="text-xl font-bold">Offices – Serving Corporates & Commercial Spaces Professionally</h3>
+              <span className="text-[#900201] font-bold text-2xl ml-4">02</span>
+            </div>
+            <div className="mt-4 text-gray-600 space-y-3 text-sm">
+              <p>V3care serves a wide array of corporate clients, startups, co-working hubs, and commercial properties with scalable and flexible cleaning solutions.</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className=" text-[16px] font-semibold text-[#900201] mb-2">Customized Cleaning Plans</h4>
+                  <p>From daily office maintenance to quarterly deep cleaning, we provide services tailored to each business need.</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className=" text-[16px] font-semibold text-[#900201] mb-2">Eco-Safe & Standardized Practices</h4>
+                  <p>We follow standard operating procedures (SOPs) that align with corporate hygiene expectations and workplace safety norms.</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className=" text-[16px] font-semibold text-[#900201] mb-2">Service Reports & Audits</h4>
+                  <p>Corporate clients receive documented service reports, cleaning checklists, and performance dashboards.</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className=" text-[16px] font-semibold text-[#900201] mb-2">After-Hours Scheduling</h4>
+                  <p>Services are scheduled to minimize workplace disruption — early mornings, evenings, or weekends.</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className=" text-[16px] font-semibold text-[#900201] mb-2">Facility Support Add-ons</h4>
+                  <p>Includes carpet shampooing, workstation disinfection, pantry cleaning, pest control AMC, etc.</p>
+                </div>
+              </div>
+          
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* 3  */}
+      <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="flex items-start p-6">
+          <div className="bg-gray-100 p-3 rounded-md mr-4 flex-shrink-0">
+            <img src="assets/img/icons/about-book.svg" alt="Clients" className="w-8 h-8" />
+          </div>
+          <div className="flex-1">
+            <div className="flex items-center justify-between">
+              <h3 className="text-xl font-bold">Clients – Who We Serve</h3>
+              <span className="text-[#900201] font-bold text-2xl ml-4">03</span>
+            </div>
+            <div className="mt-4 text-gray-600 space-y-3 text-sm">
+              <p>We proudly cater to a diverse clientele across India's metro cities and growing urban centers:</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className=" text-[16px] font-semibold text-[#900201] mb-2">Residential Clients</h4>
+                  <p>Premium homeowners, gated societies, villa owners, and apartment residents seeking deep cleaning, kitchen/bathroom sanitation, and sofa shampooing.</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className=" text-[16px] font-semibold text-[#900201] mb-2">Corporate Clients</h4>
+                  <p>MNCs, SMEs, IT parks, and co-working spaces in need of routine upkeep and specialized services.</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className=" text-[16px] font-semibold text-[#900201] mb-2">Commercial Property Owners</h4>
+                  <p>Builders, facility managers, and developers hiring post-construction or pre-handover deep cleaning.</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className=" text-[16px] font-semibold text-[#900201] mb-2">Senior Citizens & Families</h4>
+                  <p>Customers who prioritize convenience, health, and hygiene in daily living.</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className=" text-[16px] font-semibold text-[#900201] mb-2">Metro City Customers</h4>
+                  <p>Located across Bengaluru, Mumbai, Delhi, Pune, Hyderabad, Chennai, Ahmedabad, and more.</p>
+                </div>
+              </div>
+          
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* 4  */}
+      <div className="bg-white rounded-lg shadow-md overflow-hidden">
+        <div className="flex items-start p-6">
+          <div className="bg-gray-100 p-3 rounded-md mr-4 flex-shrink-0">
+            <img src="assets/img/icons/about-book.svg" alt="Clients" className="w-8 h-8" />
+          </div>
+          <div className="flex-1">
+            <div className="flex items-center justify-between">
+              <h3 className="text-xl font-bold">Completed – Delivering Quality with Every Visit</h3>
+              <span className="text-[#900201] font-bold text-2xl ml-4">04</span>
+            </div>
+            <div className="mt-4 text-gray-600 space-y-3 text-sm">
+              <p>The final stage of our process is where customer satisfaction meets service excellence.</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className="  text-[16px] font-semibold text-[#900201] mb-2">Post-Service Verification</h4>
+                  <p>Our team ensures all checklist items are completed and verified on-site.</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className=" text-[16px] font-semibold text-[#900201] mb-2">Photo Logs</h4>
+                  <p>Before and after images are recorded for transparency and shared with clients (when applicable).</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className=" text-[16px] font-semibold text-[#900201] mb-2">Feedback Collection</h4>
+                  <p>Clients are encouraged to provide ratings and reviews to continually improve our services.</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className=" text-[16px] font-semibold text-[#900201] mb-2">E-Bill & Completion Report</h4>
+                  <p>Customers receive a digital service report and invoice for their records.</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className=" text-[16px] font-semibold text-[#900201] mb-2">Best Practice Approach</h4>
+                  <p>Each completed service helps us raise the bar — cleaner homes, happier customers, stronger reputation.</p>
+                </div>
+              </div>
+          
+            </div>
+          </div>
+        </div>
+      </div>
+
+   
+    </div>
+  </div>
+</section>
+
+
+
+
           {/* /Work Section */}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
           {/* Choose Us Section */}
           <div className="py-16">
@@ -296,10 +514,9 @@ const AboutUs = () => {
           {/* Text + Accordion */}
           <div className="w-full lg:w-1/2 mb-12 lg:mb-0">
             <div className="lg:pr-8">
-              <h1 className="text-3xl font-bold mb-4">V3 care Promises</h1>
+              <h1 className="text-3xl font-bold mb-4">V3care Promises</h1>
               <p className="text-gray-600 mb-8">
-                Choose us for reliable, personalized service and exceptional
-                results.
+              Choose V3care for reliable, personalized service and exceptional results — every single time. We’re committed to setting the benchmark in professional home and commercial care services across India.
               </p>
 
               <div className="space-y-4">
@@ -339,29 +556,7 @@ const AboutUs = () => {
           </div>
         </div>
 
-        {/* Stats */}
-        <div className="flex flex-wrap justify-center mt-16">
-          {[
-            { label: "Satisfied Clients", icon: "group-stars.svg" },
-            { label: "Expert Team", icon: "expert-team.svg" },
-            { label: "Project Completed", icon: "about-documents.svg" },
-            { label: "Years of experience", icon: "expereience.svg" },
-          ].map((stat, idx) => (
-            <div key={idx} className="w-full sm:w-1/2 lg:w-1/4 px-4 mb-8">
-              <div className="flex items-center">
-                <img
-                  src={`assets/img/icons/${stat.icon}`}
-                  className="w-12 h-12 mr-4"
-                  alt={stat.label}
-                />
-                <div>
-                  <h3 className="text-3xl font-bold">2583+</h3>
-                  <p className="text-gray-600">{stat.label}</p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
+        
       </div>
     </div>
 
