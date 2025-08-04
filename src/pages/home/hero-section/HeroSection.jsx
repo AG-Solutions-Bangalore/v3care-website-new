@@ -8,8 +8,6 @@ import axios from 'axios';
 import './HeroSection.css';
 import { BASE_URL, SERVICE_SUPER_IMAGE_URL, NO_IMAGE_URL } from '../../../config/BaseUrl';
 
-
-
 const HeroSection = () => {
   const branchId = localStorage.getItem("branch_id");
 
@@ -80,8 +78,8 @@ const HeroSection = () => {
                             src={getImageUrl(category.image)}
                             alt={category.name}
                             effect="blur"
-                            width="100%"
-                            height="100%"
+                            width="36"
+                            height="36"
                           />
                         </div>
                         <span className="hero-section-service-title">{category.name}</span>
@@ -120,7 +118,7 @@ const HeroSection = () => {
                   src="assets/img/services/h1.jpeg"
                   alt="Home1"
                   effect="blur"
-                  width="100%"
+                  width="240"
                   height="100%"
                 />
               </div>
@@ -129,8 +127,8 @@ const HeroSection = () => {
                   src="assets/img/services/h2.jpeg"
                   alt="Home2"
                   effect="blur"
-                  width="100%"
-                  height="100%"
+                  width="240"
+                height="100%"
                 />
               </div>
               <div className="hero-section-image hero-section-image-3">
@@ -138,8 +136,8 @@ const HeroSection = () => {
                   src="assets/img/services/h3.jpeg"
                   alt="Home3"
                   effect="blur"
-                  width="100%"
-                  height="100%"
+                  width="240"
+                    height="100%"
                 />
               </div>
               <div className="hero-section-image hero-section-image-4">
@@ -147,8 +145,8 @@ const HeroSection = () => {
                   src="assets/img/services/h4.jpeg"
                   alt="Home4"
                   effect="blur"
-                  width="100%"
-                  height="100%"
+                  width="240"
+                     height="100%"
                 />
               </div>
             </div>

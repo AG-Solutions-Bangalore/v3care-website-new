@@ -401,7 +401,7 @@ const ServiceList = () => {
                   onClick={() => navigateToSubServiceDetails(subService)}
                 >
                   {/* Image */}
-                  <div className="relative aspect-square overflow-hidden">
+                  <div className="relative  overflow-hidden">
                   <LazyLoadImage
                         src={getImageUrl(subService.service_sub_image, true)}
                         alt={subService.service_sub}

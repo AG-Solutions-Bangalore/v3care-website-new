@@ -6,6 +6,8 @@ const Carousel = ({ children, title }) => {
 
   const navigation = (dir) => {
     const container = carouselContainer.current;
+    if (!container) return;
+    
     const scrollAmount = 
       dir === "left" 
         ? container.scrollLeft - (container.offsetWidth + 20)
@@ -31,12 +33,14 @@ const Carousel = ({ children, title }) => {
         <button 
           onClick={() => navigation("left")}
           className="hidden md:flex absolute left-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 items-center justify-center rounded-full bg-white shadow-lg text-gray-800 hover:text-primary transition-all"
+          aria-label="Previous"
         >
           <FiChevronLeft size={24} />
         </button>
         <button 
           onClick={() => navigation("right")}
           className="hidden md:flex absolute right-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 items-center justify-center rounded-full bg-white shadow-lg text-gray-800 hover:text-primary transition-all"
+          aria-label="Next"
         >
           <FiChevronRight size={24} />
         </button>

@@ -9,7 +9,7 @@ const MainLayout = ({ children }) => {
       <div className="fixed top-0 left-0 w-full z-50  bg-white">
              <Navbar />
            </div>
-      <main className="flex-grow pt-24">
+      <main className="flex-grow  pt-24">
         <div className="bg-[#FFFFFF]">
           {children}
         </div>

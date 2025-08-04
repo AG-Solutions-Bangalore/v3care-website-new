@@ -1,16 +1,29 @@
 @import "tailwindcss";
 
-
-@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&display=swap');
-
 :root {
   font-family: 'Archivo', system-ui, Avenir, Helvetica, Arial, sans-serif;
   background-color: #FFFFFF;
   font-weight: 400;
-
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+
+
+/* Reduce animation jank */
+* {
+  will-change: auto;
+}
+
+/* Optimize scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Prevent flash of unstyled content */
+body {
+  visibility: visible;
+  opacity: 1;
 }
