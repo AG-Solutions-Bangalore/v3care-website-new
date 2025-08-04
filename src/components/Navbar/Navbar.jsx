@@ -9,6 +9,7 @@ import { BASE_URL, NO_IMAGE_URL, SERVICE_IMAGE_URL, SERVICE_SUB_IMAGE_URL } from
 import './Navbar.css'
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
+
 const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -38,6 +39,7 @@ const Navbar = () => {
   const searchResultsRef = useRef(null);
   const mobileSearchInputRef = useRef(null);
   const [hasFetchedServices, setHasFetchedServices] = useState(false);
+
   useEffect(() => {
     const storedCity = localStorage.getItem('city');
     setCurrentCity(storedCity);
@@ -50,8 +52,6 @@ const Navbar = () => {
     window.addEventListener('cityChanged', handleCityChange);
     return () => window.removeEventListener('cityChanged', handleCityChange);
   }, []);
-
- 
 
   useEffect(() => {
     if (isMenuOpen || showMobileSearchModal) {
@@ -129,57 +129,29 @@ const Navbar = () => {
     }
   };
 
- 
-  // const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const query = e.target.value;
-  //   setSearchQuery(query);
-    
-  //   if (query.length > 0) {
-  //     setShowSearchResults(true); 
-      
-  //     if (services.length === 0) {
-  //       fetchServices(); 
-  //     } else {
-       
-  //       const filtered = services.filter(service => 
-  //         service.service.toLowerCase().includes(query.toLowerCase())
-  //       );
-  //       setFilteredServices(filtered);
-  //     }
-  //   } else {
-  //     setShowSearchResults(false);
-  //   }
-  // };
-  
-const handleSearchFocus = () => {
-  if (!hasFetchedServices) {
-    fetchServices();
-  }
-  setShowSearchResults(true);
-};
-
-const handleSearchChange = (e) => {
-  const query = e.target.value;
-  setSearchQuery(query);
-  
-  if (query.length > 0) {
-    if (hasFetchedServices) {
-      const filtered = services.filter(service => 
-        service.service.toLowerCase().includes(query.toLowerCase())
-      );
-      setFilteredServices(filtered);
-      setShowSearchResults(true);
+  const handleSearchFocus = () => {
+    if (!hasFetchedServices) {
+      fetchServices();
     }
-    // Don't show results until we have data
-  } else {
-    setShowSearchResults(false);
-  }
-};
-  // const handleSearchFocus = () => {
-  //   if (searchQuery.length > 0 && filteredServices.length > 0) {
-  //     setShowSearchResults(true);
-  //   }
-  // };
+    setShowSearchResults(true);
+  };
+
+  const handleSearchChange = (e) => {
+    const query = e.target.value;
+    setSearchQuery(query);
+    
+    if (query.length > 0) {
+      if (hasFetchedServices) {
+        const filtered = services.filter(service => 
+          service.service.toLowerCase().includes(query.toLowerCase())
+        );
+        setFilteredServices(filtered);
+        setShowSearchResults(true);
+      }
+    } else {
+      setShowSearchResults(false);
+    }
+  };
 
   const getImageUrlService = (imageName, isSubService = false) => {
     if (!imageName) {
@@ -222,6 +194,17 @@ const handleSearchChange = (e) => {
       setTimeout(() => mobileSearchInputRef.current?.focus(), 0);
     }
   };
+  const handleSubServiceClick = (subService) => {
+    navigate(`/${selectedService?.serviceSuper_url}/${selectedService?.service_slug}/${subService.service_sub_slug}/pricing`, {
+      state: {
+        service_id: selectedService?.id,
+        service_name: selectedService?.service,
+        service_sub_id: subService.id,
+        service_sub_name: subService.service_sub
+      }
+    });
+    setShowSubServiceModal(false); 
+  };
   const renderSearchResults = () => (
     <>
       {isSearching ? (
@@ -251,10 +234,12 @@ const handleSearchChange = (e) => {
               }}
             >
               <div className="home-header-nav-search-result-image">
-                <img
+                <LazyLoadImage
                   src={getImageUrlService(service.service_image)}
                   alt={service.service}
-                  loading="lazy"
+                  effect="blur"
+                  width="40"
+                  height="40"
                 />
               </div>
               <div className="home-header-nav-search-result-content">
@@ -341,17 +326,10 @@ const handleSearchChange = (e) => {
                 <div
                   key={subService.id}
                   className="group relative overflow-hidden rounded-md border border-gray-200 bg-white shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 cursor-pointer"
-                  onClick={() => navigate(`/${selectedService?.serviceSuper_url}/${selectedService?.service_slug}/${subService.service_sub_slug}/pricing`, {
-                    state: {
-                      service_id: selectedService?.id,
-                      service_name: selectedService?.service,
-                      service_sub_id: subService.id,
-                      service_sub_name: subService.service_sub
-                    }
-                  })}
+                  onClick={() => handleSubServiceClick(subService)}
                 >
                   {/* Image */}
-                  <div className="relative aspect-square overflow-hidden">
+                  <div className="relative overflow-hidden">
                   <LazyLoadImage
                         src={getImageUrlService(subService.service_sub_image, true)}
                         alt={subService.service_sub}
@@ -396,12 +374,18 @@ const handleSearchChange = (e) => {
   </div>
 )}
 
-
       <header className={`home-header-nav `}>
         <div className="home-header-nav-container">
           <div className="home-header-nav-brand">
             <Link to="/" className="home-header-nav-logo-link">
-              <img src={logoNav} className="home-header-nav-logo-img" alt="Company Logo" />
+              <img 
+                src={logoNav} 
+                className="home-header-nav-logo-img" 
+                alt="Company Logo"
+                width="60"
+                height="60"
+                loading="eager"
+              />
             </Link>
           </div>
 
@@ -541,9 +525,6 @@ const handleSearchChange = (e) => {
                 <Link to="/service" className="home-header-nav-book-now-btn">
                   <span className="home-header-nav-btn-text">Book Now</span>
                 </Link>
-                {/* <Link to="/apply-job" className="home-header-nav-book-now-btn">
-                  <span className="home-header-nav-btn-text">Apply for Job</span>
-                </Link> */}
 
                 <Link to="/become-partner" className="home-header-nav-vendor-btn-mobile">
                   <Icon.User size={16} />
@@ -595,7 +576,13 @@ const handleSearchChange = (e) => {
         <div className={`home-header-nav-mobile-sidebar ${isMenuOpen ? 'open' : ''}`} ref={sidebarRef}>
           <div className="home-header-nav-sidebar-header">
             <Link to="/" className="home-header-nav-sidebar-logo" onClick={closeMenu}>
-              <img src={logoNav} alt="Company Logo" />
+              <img 
+                src={logoNav} 
+                alt="Company Logo"
+                width="60"
+                height="60"
+                loading="lazy"
+              />
             </Link>
             <button className="home-header-nav-sidebar-close" onClick={closeMenu} aria-label="Close menu">
               <Icon.X size={24} />

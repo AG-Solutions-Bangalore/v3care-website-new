@@ -7,6 +7,8 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import axios from 'axios';
 import moment from 'moment';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 import { BASE_URL, BLOG_IMAGE_URL } from '../../../config/BaseUrl';
 
 const BlogSection = () => {
@@ -111,13 +113,13 @@ const BlogSection = () => {
             </Swiper>
           ) : (
             <>
-              <button className="blog-swiper-button-next absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white text-black rounded-full shadow-md flex items-center justify-center hover:bg-black hover:text-white transition-colors hidden md:flex"
+              <button className="blog-swiper-button-next absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white text-black rounded-full shadow-md  items-center justify-center hover:bg-black hover:text-white transition-colors hidden md:flex"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
                 </svg>
               </button>
-              <button className="blog-swiper-button-prev absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white text-black rounded-full shadow-md flex items-center justify-center hover:bg-black hover:text-white transition-colors hidden md:flex"
+              <button className="blog-swiper-button-prev absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 bg-white text-black rounded-full shadow-md  items-center justify-center hover:bg-black hover:text-white transition-colors hidden md:flex"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                   <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
@@ -147,10 +149,13 @@ const BlogSection = () => {
                       <div className="bg-white border border-gray-100 rounded-lg overflow-hidden h-full flex flex-col transition-all duration-300 hover:border-blue-100">
                         <div className="relative overflow-hidden aspect-[4/3]">
                           <Link to={`/blog-details/${blog.blogs_slug}`}>
-                            <img
+                            <LazyLoadImage
                               src={`${BLOG_IMAGE_URL}/${blog.blogs_image}`}
                               className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                               alt={blog.blogs_heading}
+                              effect="blur"
+                              width="100%"
+                              height="100%"
                             />
                           </Link>
                         </div>
@@ -158,10 +163,13 @@ const BlogSection = () => {
                           <div className="flex justify-between items-center mb-3">
                             <div className="flex items-center">
                               <div className="rounded-full overflow-hidden mr-2 border border-gray-200">
-                                <img
+                                <LazyLoadImage
                                   src="assets/img/services/v3logo.png"
                                   className="w-8 h-8 object-cover"
                                   alt="user"
+                                  effect="blur"
+                                  width="32"
+                                  height="32"
                                 />
                               </div>
                               <span className="text-sm text-gray-600">V3 Care</span>

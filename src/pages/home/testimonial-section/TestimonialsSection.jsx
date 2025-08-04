@@ -4,13 +4,15 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/pagination';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import 'react-lazy-load-image-component/src/effects/blur.css';
 import axios from 'axios';
 import { BASE_URL, TESTIMONIAL_IMAGE_URL, NO_IMAGE_URL } from '../../../config/BaseUrl';
 import SkeletonTestimonials from './SkeletonTestimonials';
 
 const TestimonialsSection = () => {
   const [testimonials, setTestimonials] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const fetchTestimonials = async () => {
@@ -99,10 +101,13 @@ const TestimonialsSection = () => {
                   <SwiperSlide key={index}>
                     <div className="bg-white rounded-xl p-6 border border-blue-100">
                       <div className="flex items-start gap-4 mb-4">
-                        <img
+                        <LazyLoadImage
                           src={getTestimonialImageUrl(testimonial.testimonial_image)}
                           alt={testimonial.testimonial_user}
-                          className="w-14 h-14 rounded-full object-cover border-2 border-red-100"
+                          className="w-14 h-14 rounded-full object-cover border-2 border-red-900"
+                          effect="blur"
+                          width="56"
+                          height="56"
                         />
                         <div>
                           <h4 className="text-lg font-semibold text-gray-800">

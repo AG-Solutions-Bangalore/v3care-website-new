@@ -21,7 +21,14 @@ const Footer = () => {
               <div className="footer-bottom-footer-widget footer-bottom-footer-widget-seven">
                 <div className="footer-bottom-footer-logo">
                   <Link to='/'>
-                    <img src={logoNav} alt="logo_footer" loading="lazy" decoding="async" />
+                    <img 
+                      src={logoNav} 
+                      alt="logo_footer" 
+                      loading="lazy" 
+                      decoding="async"
+                      width="160"
+                      height="auto"
+                    />
                   </Link>
                 </div>
                 <div className="footer-bottom-footer-content">
