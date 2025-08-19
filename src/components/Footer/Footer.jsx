@@ -138,7 +138,7 @@ const Footer = () => {
           <div className="footer-bottom-footer-bottom-content">
             <div className="footer-bottom-copyright footer-bottom-copyright-centered">
               <p style={{color:"#ffffff"}}>
-                Copyright 2025 © <a href="https://ag-solutions.in/" target="_blank" rel="noreferrer" className="footer-bottom-text-white">AGSolutions</a>. All right reserved.
+                Copyright 2025 © <span className="footer-bottom-text-white text-red-400">V3Care</span>. All right reserved.
               </p>
             </div>
           </div>
