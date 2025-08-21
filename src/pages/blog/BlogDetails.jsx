@@ -130,11 +130,11 @@ const BlogDetails = () => {
                    "@type": "BlogPosting",
                    "mainEntityOfPage": {
                      "@type": "WebPage",
-                     "@id": "https://v3care.com/blog-details/${blog.blogs_slug}"
+                     "@id": "https://v3care.in/blog-details/${blog.blogs_slug}"
                    },
                    "headline": "${blog.blogs_meta_title}",
                    "description": "${blog.blogs_meta_description}",
-                   "image": "https://v3care.com/crmapi/storage/app/public/blog/${
+                   "image": "https://v3care.in/crmapi/storage/app/public/blog/${
                      blog.blogs_image
                    }",
                    "author": {
@@ -146,7 +146,7 @@ const BlogDetails = () => {
                      "name": "V3Care",
                      "logo": {
                        "@type": "ImageObject",
-                       "url": "https://v3care.com/assets/img/services/v3logo.png"
+                       "url": "https://v3care.in/assets/img/services/v3logo.png"
                      }
                    },
                    "datePublished": "${moment(blog.blogs_created_date).format(

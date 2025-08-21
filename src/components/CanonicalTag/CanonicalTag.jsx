@@ -6,7 +6,7 @@ const CanonicalTag = () => {
   
   useEffect(() => {
    
-    const baseUrl = "https://v3care.com/";
+    const baseUrl = "https://v3care.in/";
     
    
     

@@ -113,7 +113,7 @@ const Footer = () => {
                     </span>
                     <div className="footer-bottom-contact-details">
                       <span>Mail Address</span>
-                      <h6><a target="_blank" rel="noreferrer" href="mailto:info@v3care.com">info@v3care.com</a></h6>
+                      <h6><a target="_blank" rel="noreferrer" href="mailto:info@v3care.in">info@v3care.in</a></h6>
                     </div>
                   </div>
                   <div className="footer-bottom-contact-item">

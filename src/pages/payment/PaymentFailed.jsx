@@ -76,7 +76,7 @@ const PaymentFailed = () => {
                 <Phone className="w-4 h-4 mr-2" /> Call Support
               </a>
               <a
-                href={`mailto:info@v3care.com?subject=Booking%20Issue%20${booking_id || ''}&body=Booking ID: ${booking_id || 'N/A'}%0APayment ID: ${payment_id || 'N/A'}%0AIssue: ${encodeURIComponent(error)}`}
+                href={`mailto:info@v3care.in?subject=Booking%20Issue%20${booking_id || ''}&body=Booking ID: ${booking_id || 'N/A'}%0APayment ID: ${payment_id || 'N/A'}%0AIssue: ${encodeURIComponent(error)}`}
                 className="inline-flex items-center px-5 py-2 rounded-md border border-gray-800 text-gray-800 hover:bg-gray-100 transition"
               >
                 <Mail className="w-4 h-4 mr-2" /> Email Us
