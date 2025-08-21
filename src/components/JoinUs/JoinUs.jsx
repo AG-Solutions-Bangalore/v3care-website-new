@@ -116,7 +116,7 @@ const JoinUs = () => {
         >
           {/* Mail icon */}
           <a
-            href="mailto:info@v3care.com"
+            href="mailto:info@v3care.in"
             style={{
               color: '#EA4335',
               backgroundColor: 'white',

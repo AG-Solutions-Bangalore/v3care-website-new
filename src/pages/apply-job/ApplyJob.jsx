@@ -179,43 +179,33 @@ const ApplyJob = () => {
       </style>
      
       <div
-style={{
-  position: 'fixed',
-  top: isSmallScreen ? '105px' : '110px',
-  right: '20px',
-  zIndex: 1000,
-  maxWidth: '300px',
-  width: '100%',
-  left: isSmallScreen ? '50%' : 'auto',
-  transform: isSmallScreen ? 'translateX(-50%)' : 'none',
-}}
->
-  {notifications.map((notification) => (
-    <div 
-      key={notification.id}
-      className={`alert alert-${notification.type === 'success' ? 'success' : 'danger'} alert-dismissible fade show p-2 mb-2`}
-      style={{
-        width: '100%',
-        borderRadius: '4px',
-        fontSize: '14px',
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        animation: 'slideDown 0.3s ease-out',
-        boxShadow: '0 2px 5px rgba(0,0,0,0.1)'
-      }}
-    >
-      <span style={{ flex: 1 }}>{notification.message}</span>
-      <button 
-        type="button" 
-        className="btn-close p-1" 
-        style={{ fontSize: '10px' }}
-        onClick={() => removeNotification(notification.id)}
-        aria-label="Close"
-      />
-    </div>
-  ))}
-</div>
+        className={`fixed z-[1000] max-w-[300px] w-full ${
+          isSmallScreen
+            ? "top-[105px] left-1/2 -translate-x-1/2"
+            : "top-[110px] right-5"
+        }`}
+      >
+        {notifications.map((notification) => (
+          <div
+            key={notification.id}
+            className={`p-2 mb-2 w-full rounded text-sm flex justify-between items-center shadow-md ${
+              notification.type === "success"
+                ? "bg-green-100 text-green-800"
+                : "bg-red-100 text-red-800"
+            }`}
+          >
+            <span className="flex-1">{notification.message}</span>
+            <button
+              type="button"
+              className="p-1 text-xs"
+              onClick={() => removeNotification(notification.id)}
+              aria-label="Close"
+            >
+              ×
+            </button>
+          </div>
+        ))}
+      </div>
      
       <div className="apply-job-wrapper">
         <div className="apply-job-content">
