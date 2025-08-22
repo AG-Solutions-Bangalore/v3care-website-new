@@ -65,7 +65,7 @@ const ServiceDetails = () => {
     const id = Date.now().toString();
     setNotifications((prev) => [...prev, { id, message, type }]);
 
-    // Auto-remove after 5 seconds
+   
     setTimeout(() => {
       removeNotification(id);
     }, 5000);
@@ -483,6 +483,69 @@ const ServiceDetails = () => {
                         </div>
                       </div>
   
+
+
+  {/* ----------------------------------------Photo only for mobile start--------------------------------------------------- */}
+<div className='block sm:hidden'>
+  {cardLoading ? (
+                 <div className="flex flex-col text-center items-center">
+                           <Loader className='text-gray-500 animate-spin'/>
+                            <p className="mt-3 text-gray-500">Loading service card...</p>
+                          </div>
+                ) : cardError ? (
+                  <div className="flex items-center justify-between bg-red-100 text-red-800 rounded-md p-3">
+                    <div>{cardError}</div>
+                    <button
+                      className="text-red-800 hover:text-red-900 text-sm border border-red-800 rounded px-2 py-1"
+                      onClick={fetchServiceCard}
+                    >
+                      Try Again
+                    </button>
+                  </div>
+                ) : (
+                  serviceCards.length > 0 &&
+                  serviceCards.map((card) => (
+                    <div key={card.id} className="bg-white rounded-md shadow-sm overflow-hidden mb-4">
+                      <div className="w-full">
+                        {/* <img
+                          src={`${SERVICE_DETAILS_IMAGE_URL}/${card.serviceDetails_image}`}
+                          className="w-full h-auto rounded-t-md"
+                          alt={card?.serviceDetails_name}
+                        /> */}
+
+                          <LazyLoadImage
+                                                      src={`${SERVICE_DETAILS_IMAGE_URL}/${card.serviceDetails_image}`}
+                                                      className="w-full h-auto rounded-t-md"
+                                                      alt={card?.serviceDetails_name}
+                                                      effect="blur"
+                                                      width="100%"
+                                                      height="100%"
+                                                      onError={(e) => {
+                                                        const target = e.target;
+                                                        target.src = `${NO_IMAGE_URL}`;
+                                                      }}
+                                                    />
+                      </div>
+                      <div className="p-3">
+                        <h1 className="text-lg font-medium mb-1">
+                          {card?.serviceDetails_name}
+                        </h1>
+                        <div className="prose max-w-none">
+                          <ReactQuill
+                            value={card?.serviceDetails || ''}
+                            readOnly={true}
+                            theme={null}
+                            modules={{ toolbar: false }}
+                            className="read-only-quill-service"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                )}
+
+</div>
+  {/* ----------------------------------------------------------------------------------------------------------------- */}
                       {serviceFAQ?.length > 0 && (
       <div>
         <h2 className="text-lg font-semibold mb-4">FAQ's</h2>
@@ -550,7 +613,7 @@ const ServiceDetails = () => {
                     )}
                   </div>
                 </div>
-  
+                <div className='hidden sm:block'>
                 {cardLoading ? (
                  <div className="flex flex-col text-center items-center">
                            <Loader className='text-gray-500 animate-spin'/>
@@ -607,6 +670,7 @@ const ServiceDetails = () => {
                     </div>
                   ))
                 )}
+                </div>
               </div>
             </div>
           </div>
