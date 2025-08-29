@@ -7,6 +7,7 @@ import SmoothScroll from './components/SmoothScroll/SmoothScroll';
 import CityModal from './components/CityModal/CityModal';
 import LoadingBar from './components/loadingBar/LoadingBar';
 
+
 // Lazy load components for better performance
 const Home = lazy(() => import('./pages/home/Home'));
 const Client = lazy(() => import('./pages/client/Client'));
@@ -73,21 +74,17 @@ function App() {
       <Route path="/apply-job" element={<ApplyJob />} />
       <Route path="/contact-us" element={<ContactUs />} />
       <Route path="/service" element={<ServiceList />} />
-       <Route path="/:category_name" element={<CategoriesList />} />
-       <Route path="/become-partner" element={<BecomeVendor />} />
+      <Route path="/become-partner" element={<BecomeVendor />} />
+      <Route path="/cart" element={<Cart />} />
+     <Route path="/about-us" element={<AboutUs />} />
+     <Route path="/payment-success" element={<PaymentSuccess />} />
+     <Route path="/booking-failed" element={<PaymentFailed />} />
+    
+    
        <Route path="/:category_name/:service_name/:service_sub_name/pricing" element={<ServiceDetails />} />
        <Route path="/:category_name/:service_name/pricing" element={<ServiceDetails />} />
-       <Route path="/cart" element={<Cart />} />
-     
-       
-        <Route path="/about-us" element={<AboutUs />} />
-      
-      
-        
-      
-        <Route path="/payment-success" element={<PaymentSuccess />} />
-        <Route path="/booking-failed" element={<PaymentFailed />} />
-
+   <Route path="/:category_name" element={<CategoriesList />} />
+    
       </Routes>
       </Suspense>
     </MainLayout>

@@ -288,7 +288,7 @@ const ServiceList = () => {
                   effect="blur"
                   className="service-grid-empty-image"
                 />
-                <h4 className="service-grid-empty-title">No services found</h4>
+                <h4 className="service-grid-empty-title">No services found Service List</h4>
                 <p className="service-grid-empty-text">We could not find any services in this category.</p>
               </div>
             </div>

@@ -247,6 +247,7 @@ const BlogDetails = () => {
                         </p>
                         <h4 className="text-sm font-semibold text-gray-800 hover:text-blue-600 transition">
                           <Link
+                          title={`${item.blogs_heading}`}
                             to={`${routes.blogDetails}/${item.blogs_slug}`}
                             className="hover:underline"
                           >

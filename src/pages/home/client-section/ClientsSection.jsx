@@ -63,6 +63,7 @@ const ClientsSection = () => {
           </p>
           <Link
             to="/client"
+            title='Go to the client page'
             className="inline-flex items-center text-blue-500 hover:text-blue-600 transition-colors group"
           >
             See all Clients

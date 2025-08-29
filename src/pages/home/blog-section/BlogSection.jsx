@@ -180,7 +180,7 @@ const BlogSection = () => {
                             </div>
                           </div>
                           <h3 className="text-md font-semibold text-gray-800 mb-2 line-clamp-2 hover:text-black transition-colors">
-                            <Link to={`/blog-details/${blog.blogs_slug}`}>
+                            <Link title={`${blog.blogs_heading}`} to={`/blog-details/${blog.blogs_slug}`}>
                               {blog.blogs_heading}
                             </Link>
                           </h3>

@@ -11,7 +11,7 @@ import { BASE_URL, SERVICE_SUPER_IMAGE_URL, NO_IMAGE_URL } from '../../../config
 const HeroSection = () => {
   const branchId = localStorage.getItem("branch_id");
 
-  // Fetch categories with react-query
+ 
   const { data: categories, isLoading, error } = useQuery({
     queryKey: ['serviceSuperCategories', branchId],
     queryFn: async () => {
@@ -23,7 +23,7 @@ const HeroSection = () => {
         url: item.serviceSuper_url
       })) || [];
     },
-    staleTime: 60 * 60 * 1000, // Cache for 1 hour
+    staleTime: 60 * 60 * 1000, 
     retry: 2,
   });
 
@@ -70,6 +70,7 @@ const HeroSection = () => {
                   {categories?.map((category, index) => (
                     <React.Fragment key={index}>
                       <Link 
+                      title={`${category.name}`}
                         to={`/${encodeURIComponent(category.url)}`}
                         className="hero-section-service-item"
                       >

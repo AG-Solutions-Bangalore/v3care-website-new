@@ -13,6 +13,7 @@ import './ServiceCategory.css'
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import { BASE_URL, NO_IMAGE_URL, SERVICE_IMAGE_URL, SERVICE_SUB_IMAGE_URL, SERVICE_SUPER_IMAGE_URL } from '../../config/BaseUrl';
+import NotFound from '../not-found/NotFound';
 
 
 
@@ -35,6 +36,7 @@ const CategoriesList = () => {
   const [showSubServiceModal, setShowSubServiceModal] = useState(false);
   const [subServiceLoading, setSubServiceLoading] = useState(false);
   const [serviceSuper, setServiceSuper] = useState(null);
+  const [validCategory, setValidCategory] = useState(null);
   const navigate = useNavigate();
 
   
@@ -43,21 +45,32 @@ const CategoriesList = () => {
       setIsLoading(true);
       setError(null);
       const response = await axios.get(`${BASE_URL}/api/panel-fetch-web-service-super-out/${branchId}`);
+      const superCategories = response.data.serviceSuper || [];
       setCategories(response.data.serviceSuper?.map((item) => ({
         id: item.id,
         name: item.serviceSuper,
         image: item.serviceSuper_image,
         url: item.serviceSuper_url
       })) || []);
+      if (category_name) {
+        const isValid = superCategories.some(
+          (cat) => cat.serviceSuper_url === category_name
+        );
+        setValidCategory(isValid);
+      } else {
+        setValidCategory(false);
+      }
     } catch (error) {
       console.error('Failed to fetch  categories:', error);
       setError('Failed to load  categories. Please try again.');
+      setValidCategory(false);
     } finally {
       setIsLoading(false);
     }
   };
 
   const fetchServices = async () => {
+    if (!validCategory) return;
     try {
       setLoading(true);
       setError(null);
@@ -130,10 +143,12 @@ const CategoriesList = () => {
  useEffect(() => {
       fetchCategories();
     }, []);
-  useEffect(() => {
-    fetchServices();
-  }, [category_name]);
 
+    useEffect(() => {
+      if (validCategory === true) {
+        fetchServices();
+      }
+    }, [category_name, validCategory]);
   const SkeletonLoader = () => {
     return (
       <div className="categories-grid">
@@ -148,7 +163,9 @@ const CategoriesList = () => {
       </div>
     );
   };
-
+  if (!isLoading && validCategory === false) {
+    return <NotFound />;
+  }
   if (error) {
     return (
       <>
@@ -257,7 +274,7 @@ const CategoriesList = () => {
                   effect="blur"
                   className="categories-empty-image"
                 />
-                <h4 className="categories-empty-title">No services found</h4>
+                <h4 className="categories-empty-title">No services found Category</h4>
                 <p className="categories-empty-text">We couldn not find any services matching your criteria.</p>
               </div>
             </div>
