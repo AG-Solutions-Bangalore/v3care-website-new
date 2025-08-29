@@ -181,6 +181,7 @@ const Blog = () => {
                   {/* Title */}
                   <h1 className="text-md font-semibold text-gray-800  line-clamp-3">
                     <Link 
+                    title={`${blog.blogs_heading}`}
                       to={`${routes.blogDetails}/${blog.blogs_slug}`}
                       className="hover:text-black transition-colors duration-200"
                     >

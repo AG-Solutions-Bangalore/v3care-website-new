@@ -40,27 +40,27 @@ const Footer = () => {
                 <div className="footer-bottom-social-links">
                   <ul>
                     <li>
-                      <Link target="_blank" rel="noreferrer" to="https://www.facebook.com/v3care">
+                      <Link title='Facebook' target="_blank" rel="noreferrer" to="https://www.facebook.com/v3care">
                       <Icon.Facebook className='my-1 mx-1'/>
                       </Link>
                     </li>
                     <li>
-                      <Link target="_blank" rel="noreferrer" to="https://x.com/care_v3">
+                      <Link title='Twitter' target="_blank" rel="noreferrer" to="https://x.com/care_v3">
                         <Icon.Twitter className='my-1 mx-1'/>
                       </Link>
                     </li>
                     <li>
-                      <Link target="_blank" rel="noreferrer" to="https://www.instagram.com/v3care/">
+                      <Link title='Instagram' target="_blank" rel="noreferrer" to="https://www.instagram.com/v3care/">
                       <Icon.Instagram className='my-1 mx-1'/>
                       </Link>
                     </li>
                     <li>
-                      <Link target="_blank" rel="noreferrer" to="https://www.linkedin.com/in/v3-care-15135119b/">
+                      <Link title='LinkedIn' target="_blank" rel="noreferrer" to="https://www.linkedin.com/in/v3-care-15135119b/">
                       <Icon.Linkedin className='my-1 mx-1'/>
                       </Link>
                     </li>
                     <li>
-                      <Link target="_blank" rel="noreferrer" to="https://www.youtube.com/channel/UC3eZ5BXlhuQk_OZ6zXXgW2w">
+                      <Link title='Youtube' target="_blank" rel="noreferrer" to="https://www.youtube.com/channel/UC3eZ5BXlhuQk_OZ6zXXgW2w">
                       <Icon.Youtube className='my-1 mx-1'/>
                       </Link>
                     </li>
@@ -75,19 +75,19 @@ const Footer = () => {
                 <h2 className="footer-bottom-footer-title">About</h2>
                 <ul>
                   <li>
-                    <Link to='/about-us'>About us</Link>
+                    <Link title='About Us' to='/about-us'>About us</Link>
                   </li>
                   <li>
-                    <Link to='/contact-us'>Contact Us</Link>
+                    <Link title='Contact Us' to='/contact-us'>Contact Us</Link>
                   </li>
                   <li>
-                    <Link to='/service'>Service</Link>
+                    <Link title='Service' to='/service'>Service</Link>
                   </li>
                   <li>
-                    <Link to='/client'>Client</Link>
+                    <Link title='Client' to='/client'>Client</Link>
                   </li>
                   <li>
-                    <Link to='/blog'>Blog</Link>
+                    <Link title='Blog' to='/blog'>Blog</Link>
                   </li>
                 </ul>
               </div>
@@ -104,7 +104,7 @@ const Footer = () => {
                     </span>
                     <div className="footer-bottom-contact-details">
                       <span>Phone Number</span>
-                      <h6><a target="_blank" rel="noreferrer" href="tel:+919880778585">+91 98807 78585</a></h6>
+                      <h6><a title='Call Us' target="_blank" rel="noreferrer" href="tel:+919880778585">+91 98807 78585</a></h6>
                     </div>
                   </div>
                   <div className="footer-bottom-contact-item">
@@ -113,7 +113,7 @@ const Footer = () => {
                     </span>
                     <div className="footer-bottom-contact-details">
                       <span>Mail Address</span>
-                      <h6><a target="_blank" rel="noreferrer" href="mailto:info@v3care.in">info@v3care.in</a></h6>
+                      <h6><a title='Mail Us' target="_blank" rel="noreferrer" href="mailto:info@v3care.in">info@v3care.in</a></h6>
                     </div>
                   </div>
                   <div className="footer-bottom-contact-item">

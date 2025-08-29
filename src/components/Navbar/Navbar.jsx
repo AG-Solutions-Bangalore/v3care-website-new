@@ -377,7 +377,7 @@ const Navbar = () => {
       <header className={`home-header-nav `}>
         <div className="home-header-nav-container">
           <div className="home-header-nav-brand">
-            <Link to="/" className="home-header-nav-logo-link">
+            <Link title='Home' to="/" className="home-header-nav-logo-link">
               <img 
                 src={logoNav} 
                 className="home-header-nav-logo-img" 
@@ -422,11 +422,11 @@ const Navbar = () => {
             </div>
 
             <div className="home-header-nav-top-actions">
-            <Link to="/apply-job" className="home-header-nav-vendor-btn">
+            <Link title='Apply Job' to="/apply-job" className="home-header-nav-vendor-btn">
                 <Icon.Briefcase size={16} />
                 <span className="home-header-nav-btn-text">Apply For Job</span>
               </Link>
-              <Link to="/become-partner" className="home-header-nav-vendor-btn">
+              <Link title='Become Partner' to="/become-partner" className="home-header-nav-vendor-btn">
                 <Icon.User size={16} />
                 <span className="home-header-nav-btn-text">Become Partner</span>
               </Link>
@@ -439,10 +439,10 @@ const Navbar = () => {
               <nav className="home-header-nav-desktop-nav">
                 <ul className="home-header-nav-links">
                   <li className={isRouteActive('/') ? 'active' : ''}>
-                    <Link to="/">Home</Link>
+                    <Link title='Home' to="/">Home</Link>
                   </li>
                   <li className={isRouteActive('/service') ? 'active' : ''}>
-                    <Link to="/service">Services</Link>
+                    <Link title='Services' to="/service">Services</Link>
                   </li>
                   <li className="home-header-nav-search-nav-item">
                     <div className="home-header-nav-search-container">
@@ -469,10 +469,10 @@ const Navbar = () => {
               <nav className="home-header-nav-medium-nav">
                 <ul className="home-header-nav-links">
                   <li className={isRouteActive('/') ? 'active' : ''}>
-                    <Link to="/">Home</Link>
+                    <Link title='Home' to="/">Home</Link>
                   </li>
                   <li className={isRouteActive('/service') ? 'active' : ''}>
-                    <Link to="/service">Services</Link>
+                    <Link title='Services' to="/service">Services</Link>
                   </li>
                   <li className="home-header-nav-search-nav-item">
                     <div className="home-header-nav-search-container">
@@ -499,10 +499,10 @@ const Navbar = () => {
               <nav className="home-header-nav-medium-nav-for-sevenone">
                 <ul className="home-header-nav-links">
                   <li className={isRouteActive('/') ? 'active' : ''}>
-                    <Link to="/">Home</Link>
+                    <Link title='Home' to="/">Home</Link>
                   </li>
                   <li className={isRouteActive('/service') ? 'active' : ''}>
-                    <Link to="/service">Services</Link>
+                    <Link title='Services' to="/service">Services</Link>
                   </li>
                 </ul>
               </nav>
@@ -515,18 +515,18 @@ const Navbar = () => {
                 >
                   <Icon.Search size={20} />
                 </button>
-                <Link to="/cart" className="home-header-nav-cart-icon">
+                <Link title='Cart' to="/cart" className="home-header-nav-cart-icon">
                   <Icon.ShoppingCart size={20} />
                   {cartItems.length > 0 && (
                     <span className="home-header-nav-cart-count">{cartItems.length}</span>
                   )}
                 </Link>
                 
-                <Link to="/service" className="home-header-nav-book-now-btn">
+                <Link title='Service' to="/service" className="home-header-nav-book-now-btn">
                   <span className="home-header-nav-btn-text">Book Now</span>
                 </Link>
 
-                <Link to="/become-partner" className="home-header-nav-vendor-btn-mobile">
+                <Link title='Become Partner' to="/become-partner" className="home-header-nav-vendor-btn-mobile">
                   <Icon.User size={16} />
                 </Link>
 
@@ -575,7 +575,7 @@ const Navbar = () => {
         <div className={`home-header-nav-sidebar-overlay ${isMenuOpen ? 'open' : ''}`} onClick={closeMenu}></div>
         <div className={`home-header-nav-mobile-sidebar ${isMenuOpen ? 'open' : ''}`} ref={sidebarRef}>
           <div className="home-header-nav-sidebar-header">
-            <Link to="/" className="home-header-nav-sidebar-logo" onClick={closeMenu}>
+            <Link title='Home' to="/" className="home-header-nav-sidebar-logo" onClick={closeMenu}>
               <img 
                 src={logoNav} 
                 alt="Company Logo"
@@ -603,31 +603,31 @@ const Navbar = () => {
                 </Link>
               </li>
               <li className={isRouteActive('/about-us') ? 'active' : ''}>
-                <Link to="/about-us" onClick={closeMenu}>
+                <Link  title='About Us' to="/about-us" onClick={closeMenu}>
                   <Icon.Info size={18} />
                   <span>About Us</span>
                 </Link>
               </li>
               <li className={isRouteActive('/service') ? 'active' : ''}>
-                <Link to="/service" onClick={closeMenu}>
+                <Link title='Service' to="/service" onClick={closeMenu}>
                   <Icon.Settings size={18} />
                   <span>Services</span>
                 </Link>
               </li>
               <li className={isRouteActive('/client') ? 'active' : ''}>
-                <Link to="/client" onClick={closeMenu}>
+                <Link title='Client' to="/client" onClick={closeMenu}>
                   <Icon.Users size={18} />
                   <span>Clients</span>
                 </Link>
               </li>
               <li className={isRouteActive('/blog') ? 'active' : ''}>
-                <Link to="/blog" onClick={closeMenu}>
+                <Link title='Blog' to="/blog" onClick={closeMenu}>
                   <Icon.BookOpen size={18} />
                   <span>Blog</span>
                 </Link>
               </li>
               <li className={isRouteActive('/contact-us') ? 'active' : ''}>
-                <Link to="/contact-us" onClick={closeMenu}>
+                <Link title='Contact Us' to="/contact-us" onClick={closeMenu}>
                   <Icon.Mail size={18} />
                   <span>Contact Us</span>
                 </Link>
@@ -635,12 +635,12 @@ const Navbar = () => {
             </ul>
     
             <div className="home-header-nav-sidebar-actions">
-              <Link to="/become-partner" className="home-header-nav-sidebar-vendor-btn" onClick={closeMenu}>
+              <Link title='Become Partner' to="/become-partner" className="home-header-nav-sidebar-vendor-btn" onClick={closeMenu}>
                 <Icon.User size={18} />
                 <span>Become Partner</span>
               </Link>
               
-              <Link to="/service" className="home-header-nav-sidebar-header-book-now-btn" onClick={closeMenu}>
+              <Link title='Service' to="/service" className="home-header-nav-sidebar-header-book-now-btn" onClick={closeMenu}>
                 <Icon.Plus size={18} />
                 <span>Book Now</span>
               </Link>
