@@ -7,7 +7,7 @@ import DefaultHelmet from "../../components/DefaultHelmet/DefaultHelmet";
 
 const BecomeVendor = () => {
   const [currentStep, setCurrentStep] = useState(1);
-
+  const [pincodeLoading, setPincodeLoading] = useState(false);
   const [vendor, setVendor] = useState({
     vendor_short: "",
     branch_id: "",
@@ -209,7 +209,8 @@ const BecomeVendor = () => {
   const checkPincode = (e, index) => {
     const pincode = e.target.value;
     if (pincode.length === 6) {
-      fetch(`${BASE_URL_PINCODE}/api/external/pin/${pincode}`)
+      setPincodeLoading(true);
+      fetch(`${BASE_URL}/api/web-send-vendor-pincode/${pincode}`)
         .then((response) => response.json())
         .then((response) => {
           const updatedUsers = [...users1];
@@ -222,14 +223,20 @@ const BecomeVendor = () => {
           };
           setUsers1(updatedUsers);
 
-          if (response.areas) {
+          if (response.code == '200' && response.areas) {
             setLocations(
               response.areas.map((area, idx) => ({
                 id: idx.toString(),
                 name: area,
               }))
             );
+          }else{
+            showNotification(
+              `${response.msg}`,
+              "error"
+            );
           }
+          setPincodeLoading(false);
         })
         .catch((error) => {
           console.error("Error fetching pincode data:", error);
@@ -237,6 +244,7 @@ const BecomeVendor = () => {
             "Error fetching location data for this pincode",
             "error"
           );
+          setPincodeLoading(false);
         });
     }
   };
@@ -1239,7 +1247,7 @@ const BecomeVendor = () => {
                                     </label>
                                     <input
                                       type="text"
-                                      className="w-full text-sm px-3 py-2 border border-gray-300 rounded-md  focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                      className="w-full text-sm px-3 py-2 border border-gray-300 rounded-md  focus:outline-none focus:ring-blue-500 focus:border-blue-500  cursor-not-allowed"
                                       placeholder=""
                                       name="vendor_branch_city"
                                       value={user.vendor_branch_city}
@@ -1247,6 +1255,8 @@ const BecomeVendor = () => {
                                       readOnly
                                       required
                                     />
+                                    {pincodeLoading && (
+      <p className="text-sm text-gray-500">Loading...</p>)}
                                   </div>
                                 </div>
                                 <div>
@@ -1257,7 +1267,7 @@ const BecomeVendor = () => {
                                     </label>
                                     <input
                                       type="text"
-                                      className="w-full text-sm px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                      className="w-full text-sm px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 cursor-not-allowed"
                                       placeholder=""
                                       name="vendor_branch_district"
                                       value={user.vendor_branch_district}
@@ -1265,6 +1275,8 @@ const BecomeVendor = () => {
                                       readOnly
                                       required
                                     />
+                                       {pincodeLoading && (
+      <p className="text-sm text-gray-500">Loading...</p>)}
                                   </div>
                                 </div>
                                 <div>
@@ -1275,7 +1287,7 @@ const BecomeVendor = () => {
                                     </label>
                                     <input
                                       type="text"
-                                      className="w-full text-sm px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                      className="w-full text-sm px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 cursor-not-allowed"
                                       placeholder=""
                                       name="vendor_branch_state"
                                       value={user.vendor_branch_state}
@@ -1283,6 +1295,8 @@ const BecomeVendor = () => {
                                       readOnly
                                       required
                                     />
+                                       {pincodeLoading && (
+      <p className="text-sm text-gray-500">Loading...</p>)}
                                   </div>
                                 </div>
                                 <div>
@@ -1308,6 +1322,8 @@ const BecomeVendor = () => {
                                         </option>
                                       ))}
                                     </select>
+                                       {pincodeLoading && (
+      <p className="text-sm text-gray-500">Loading...</p>)}
                                   </div>
                                 </div>
                                 <div>
