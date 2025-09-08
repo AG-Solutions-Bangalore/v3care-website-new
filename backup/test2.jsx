@@ -16,8 +16,6 @@ import DefaultHelmet from "../../components/DefaultHelmet/DefaultHelmet";
 import { auth, RecaptchaVerifier, signInWithPhoneNumber } from '../../firebase/firebase-auth';
 import { Trash2 } from "lucide-react";
 
-let googleMapsScriptLoaded = false;
-
 const Cart = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -215,127 +213,71 @@ const Cart = () => {
     return true;
   };
 
- 
   const handleScriptLoad = (updateQuery, autoCompleteRef) => {
-    try {
-      if (!window.google || !window.google.maps || !window.google.maps.places) {
-        console.error('Google Maps Places API not available');
-        return;
+    autoComplete = new window.google.maps.places.Autocomplete(
+      autoCompleteRef.current,
+      {
+        componentRestrictions: { country: "IN" },
       }
+    );
 
-      autoComplete = new window.google.maps.places.Autocomplete(
-        autoCompleteRef.current,
-        {
-          componentRestrictions: { country: "IN" },
-        }
-      );
-
-      autoComplete.addListener("place_changed", () => {
-        handlePlaceSelect(updateQuery);
-      });
-    } catch (error) {
-      console.error('Error initializing Google Maps Autocomplete:', error);
-    }
+    autoComplete.addListener("place_changed", () => {
+      handlePlaceSelect(updateQuery);
+    });
   };
 
- 
   const handlePlaceSelect = async (updateQuery) => {
-    try {
-      if (!autoComplete) {
-        console.error('Autocomplete not initialized');
-        return;
-      }
-
-      const addressObject = await autoComplete.getPlace();
-      
-      if (!addressObject || !addressObject.address_components) {
-        console.error('Invalid address object received');
-        return;
-      }
-
-      // console.log("address.address_components", addressObject.address_components);
-      const query = addressObject.formatted_address;
-      const url = addressObject.url;
-      updateQuery(query);
-      let subLocality = '';
-      let locality = '';
-
-      addressObject.address_components.forEach(component => {
-        if (component.types.includes('sublocality_level_1')) {
-          subLocality = component.short_name;
-        }
-        if (component.types.includes('locality')) {
-          locality = component.short_name;
-        }
-      });
-      
-      setFormData((prev) => ({
-        ...prev,
-        order_address: query,
-        order_url: url,
-        order_sub_locality: subLocality,
-        order_locality: locality
-      }));
-    } catch (error) {
-      console.error('Error handling place selection:', error);
-    }
-  };
- 
-
-   useEffect(() => {
-      // Check if script is already loaded
-      if (googleMapsScriptLoaded || !REACT_APP_GOOGLE_MAPS_KEY) {
-        return;
-      }
+    const addressObject = await autoComplete.getPlace();
+   
+    console.log("addres.address_components",addressObject.address_components)
+    const query = addressObject.formatted_address;
+    const url = addressObject.url;
+    updateQuery(query);
+    let subLocality = '';
+    let locality = '';
   
-      const loadScript = (url, callback) => {
-        const script = document.createElement("script");
-        script.type = "text/javascript";
-        script.id = 'google-maps-script'; // Add ID to track
-  
-        script.onload = () => {
-          googleMapsScriptLoaded = true;
-          callback();
-        };
-  
-        script.onerror = () => {
-          console.error('Failed to load Google Maps script');
-        };
-  
-        script.onreadystatechange = function () {
-          if (
-            script.readyState === "loaded" ||
-            script.readyState === "complete"
-          ) {
-            googleMapsScriptLoaded = true;
-            callback();
-          }
-        };
-        script.src = url;
-        document.getElementsByTagName("head")[0].appendChild(script);
-      };
-  
-      // Check if Google Maps API is already available
-      if (window.google && window.google.maps) {
-        googleMapsScriptLoaded = true;
-        handleScriptLoad(setQuery, autoCompleteRef);
-        return;
-      }
-  
-      loadScript(
-        `https://maps.googleapis.com/maps/api/js?key=${REACT_APP_GOOGLE_MAPS_KEY}&libraries=places`,
-        () => handleScriptLoad(setQuery, autoCompleteRef)
-      );
-  
-      // Cleanup function
-      return () => {
-        // Optional: Remove the script if needed, but usually you want to keep it
-        // const script = document.getElementById('google-maps-script');
-        // if (script) script.remove();
-      };
-    }, [REACT_APP_GOOGLE_MAPS_KEY]);
-
     
+    addressObject.address_components.forEach(component => {
+      if (component.types.includes('sublocality_level_1')) {
+        subLocality = component.short_name;
+      }
+      if (component.types.includes('locality')) {
+        locality = component.short_name;
+      }
+    });
+    setFormData((prev) => ({
+      ...prev,
+      order_address: query,
+      order_url: url,
+      order_sub_locality: subLocality,
+      order_locality: locality
+    }));
+  };
+
+  React.useEffect(() => {
+    const loadScript = (url, callback) => {
+      const script = document.createElement("script");
+      script.type = "text/javascript";
+
+      script.onload = () => callback();
+
+      script.onreadystatechange = function () {
+        if (
+          script.readyState === "loaded" ||
+          script.readyState === "complete"
+        ) {
+          callback();
+        }
+      };
+      script.src = url;
+      document.getElementsByTagName("head")[0].appendChild(script);
+    };
+
+    loadScript(
+      `https://maps.googleapis.com/maps/api/js?key=${REACT_APP_GOOGLE_MAPS_KEY}&libraries=places`,
+      () => handleScriptLoad(setQuery, autoCompleteRef)
+    );
+  }, []);
   const fetchPricesForAllServices = async (date) => {
     if (cartItems.length === 0) return;
 

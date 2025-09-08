@@ -16,8 +16,6 @@ import DefaultHelmet from "../../components/DefaultHelmet/DefaultHelmet";
 import { auth, RecaptchaVerifier, signInWithPhoneNumber } from '../../firebase/firebase-auth';
 import { Trash2 } from "lucide-react";
 
-let googleMapsScriptLoaded = false;
-
 const Cart = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -34,7 +32,6 @@ const Cart = () => {
   const [timeSlot, setTimeSlot] = useState([]);
   const [timeLoading, setTimeLoading] = useState(false);
   const REACT_APP_GOOGLE_MAPS_KEY = import.meta.env.VITE_GOOGLE_MAPS_KEY;
-  const [firebaseAvailable, setFirebaseAvailable] = React.useState(true);
 
   let autoComplete;
 
@@ -47,22 +44,7 @@ const Cart = () => {
   const resendIntervalRef = React.useRef(null);
   const [confirmationResult, setConfirmationResult] = React.useState(null);
   const [verificationMethod, setVerificationMethod] = React.useState('whatsapp');
- // Check Firebase availability on component mount
-  React.useEffect(() => {
-    const checkFirebase = async () => {
-      try {
-        // Test Firebase configuration
-        await auth.app.options;
-        setFirebaseAvailable(true);
-      } catch (error) {
-        console.error('Firebase initialization error:', error);
-        setFirebaseAvailable(false);
-        showNotification('Some verification features are temporarily unavailable', 'warning', true);
-      }
-    };
-    
-    checkFirebase();
-  }, []);
+
   React.useEffect(() => {
     const handleResize = () => setIsSmallScreen(window.innerWidth < 600);
     window.addEventListener("resize", handleResize);
@@ -215,127 +197,71 @@ const Cart = () => {
     return true;
   };
 
- 
   const handleScriptLoad = (updateQuery, autoCompleteRef) => {
-    try {
-      if (!window.google || !window.google.maps || !window.google.maps.places) {
-        console.error('Google Maps Places API not available');
-        return;
+    autoComplete = new window.google.maps.places.Autocomplete(
+      autoCompleteRef.current,
+      {
+        componentRestrictions: { country: "IN" },
       }
+    );
 
-      autoComplete = new window.google.maps.places.Autocomplete(
-        autoCompleteRef.current,
-        {
-          componentRestrictions: { country: "IN" },
-        }
-      );
-
-      autoComplete.addListener("place_changed", () => {
-        handlePlaceSelect(updateQuery);
-      });
-    } catch (error) {
-      console.error('Error initializing Google Maps Autocomplete:', error);
-    }
+    autoComplete.addListener("place_changed", () => {
+      handlePlaceSelect(updateQuery);
+    });
   };
 
- 
   const handlePlaceSelect = async (updateQuery) => {
-    try {
-      if (!autoComplete) {
-        console.error('Autocomplete not initialized');
-        return;
-      }
-
-      const addressObject = await autoComplete.getPlace();
-      
-      if (!addressObject || !addressObject.address_components) {
-        console.error('Invalid address object received');
-        return;
-      }
-
-      // console.log("address.address_components", addressObject.address_components);
-      const query = addressObject.formatted_address;
-      const url = addressObject.url;
-      updateQuery(query);
-      let subLocality = '';
-      let locality = '';
-
-      addressObject.address_components.forEach(component => {
-        if (component.types.includes('sublocality_level_1')) {
-          subLocality = component.short_name;
-        }
-        if (component.types.includes('locality')) {
-          locality = component.short_name;
-        }
-      });
-      
-      setFormData((prev) => ({
-        ...prev,
-        order_address: query,
-        order_url: url,
-        order_sub_locality: subLocality,
-        order_locality: locality
-      }));
-    } catch (error) {
-      console.error('Error handling place selection:', error);
-    }
-  };
- 
-
-   useEffect(() => {
-      // Check if script is already loaded
-      if (googleMapsScriptLoaded || !REACT_APP_GOOGLE_MAPS_KEY) {
-        return;
-      }
+    const addressObject = await autoComplete.getPlace();
+   
+    console.log("addres.address_components",addressObject.address_components)
+    const query = addressObject.formatted_address;
+    const url = addressObject.url;
+    updateQuery(query);
+    let subLocality = '';
+    let locality = '';
   
-      const loadScript = (url, callback) => {
-        const script = document.createElement("script");
-        script.type = "text/javascript";
-        script.id = 'google-maps-script'; // Add ID to track
-  
-        script.onload = () => {
-          googleMapsScriptLoaded = true;
-          callback();
-        };
-  
-        script.onerror = () => {
-          console.error('Failed to load Google Maps script');
-        };
-  
-        script.onreadystatechange = function () {
-          if (
-            script.readyState === "loaded" ||
-            script.readyState === "complete"
-          ) {
-            googleMapsScriptLoaded = true;
-            callback();
-          }
-        };
-        script.src = url;
-        document.getElementsByTagName("head")[0].appendChild(script);
-      };
-  
-      // Check if Google Maps API is already available
-      if (window.google && window.google.maps) {
-        googleMapsScriptLoaded = true;
-        handleScriptLoad(setQuery, autoCompleteRef);
-        return;
-      }
-  
-      loadScript(
-        `https://maps.googleapis.com/maps/api/js?key=${REACT_APP_GOOGLE_MAPS_KEY}&libraries=places`,
-        () => handleScriptLoad(setQuery, autoCompleteRef)
-      );
-  
-      // Cleanup function
-      return () => {
-        // Optional: Remove the script if needed, but usually you want to keep it
-        // const script = document.getElementById('google-maps-script');
-        // if (script) script.remove();
-      };
-    }, [REACT_APP_GOOGLE_MAPS_KEY]);
-
     
+    addressObject.address_components.forEach(component => {
+      if (component.types.includes('sublocality_level_1')) {
+        subLocality = component.short_name;
+      }
+      if (component.types.includes('locality')) {
+        locality = component.short_name;
+      }
+    });
+    setFormData((prev) => ({
+      ...prev,
+      order_address: query,
+      order_url: url,
+      order_sub_locality: subLocality,
+      order_locality: locality
+    }));
+  };
+
+  React.useEffect(() => {
+    const loadScript = (url, callback) => {
+      const script = document.createElement("script");
+      script.type = "text/javascript";
+
+      script.onload = () => callback();
+
+      script.onreadystatechange = function () {
+        if (
+          script.readyState === "loaded" ||
+          script.readyState === "complete"
+        ) {
+          callback();
+        }
+      };
+      script.src = url;
+      document.getElementsByTagName("head")[0].appendChild(script);
+    };
+
+    loadScript(
+      `https://maps.googleapis.com/maps/api/js?key=${REACT_APP_GOOGLE_MAPS_KEY}&libraries=places`,
+      () => handleScriptLoad(setQuery, autoCompleteRef)
+    );
+  }, []);
   const fetchPricesForAllServices = async (date) => {
     if (cartItems.length === 0) return;
 
@@ -511,16 +437,6 @@ const Cart = () => {
     if (!validateForm()) {
       return;
     }
-
-    if (!firebaseAvailable) {
-      await sendWhatsAppNotification(formData.order_customer_mobile);
-      showNotification(
-        "We got your query. We will get back to you soon.",
-        "success"
-      );
-      return;
-    }
-
     setIsSendingOtp(true);
   
     if (!formData.order_customer_mobile) {
@@ -587,19 +503,7 @@ const Cart = () => {
       if (tempContainer) {
         document.body.removeChild(tempContainer);
       }
-        // Handle Firebase-specific errors
-      if (error.code?.includes('auth/') || error.message?.includes('Firebase')) {
-        setFirebaseAvailable(false);
-        showNotification('Verification service temporarily unavailable', 'warning');
-        
-        // Fallback to WhatsApp notification
-        await sendWhatsAppNotification(formData.order_customer_mobile);
-        showNotification(
-          "We got your query. We will get back to you soon.",
-          "success"
-        );
-        return;
-      }
+      
       let errorMessage = 'Failed to send OTP. Please try again.';
       
       if (error.code === 'auth/invalid-phone-number') {
@@ -1194,11 +1098,7 @@ const Cart = () => {
                                         ? "bg-gray-400 text-gray-800 cursor-not-allowed"
                                         : "bg-black text-white hover:bg-white hover:text-black hover:border hover:border-black"
                                     }`}
-                                    // onClick={sendWhatsAppOtp}
-                                    onClick={firebaseAvailable ? sendWhatsAppOtp : async () => {
-                                      await sendWhatsAppNotification(formData.order_customer_mobile);
-                                      showNotification("We got your query. We will get back to you soon.", "success");
-                                    }}
+                                    onClick={sendWhatsAppOtp}
                                     disabled={
                                       cartItems.length === 0 ||
                                       isLoadingPrices ||
@@ -1206,22 +1106,14 @@ const Cart = () => {
                                       isSendingOtp
                                     }
                                   >
-                                    {/* {isSendingOtp ? (
+                                    {isSendingOtp ? (
                                       <>
                                         <span className="inline-block animate-spin rounded-md h-4 w-4 border-b-2 border-white mr-2"></span>
                                         Sending OTP...
                                       </>
                                     ) : (
                                       "Book Now"
-                                    )} */}
-                                      {isSendingOtp ? (
-            <>
-              <span className="inline-block animate-spin rounded-md h-4 w-4 border-b-2 border-white mr-2"></span>
-              {firebaseAvailable ? "Sending OTP..." : "Processing..."}
-            </>
-          ) : (
-            firebaseAvailable ? "Book Now" : "Continue without verification"
-          )}
+                                    )}
                                   </button>
                                 ) : (
                                   <div className="w-full">
@@ -1334,33 +1226,21 @@ const Cart = () => {
                                         ? "bg-gray-400 text-gray-800 cursor-not-allowed"
                                         : "bg-black text-white hover:bg-white hover:text-black hover:border hover:border-black"
                                     }`}
-                                    // onClick={sendWhatsAppOtp}
-                                    onClick={firebaseAvailable ? sendWhatsAppOtp : async () => {
-                                      await sendWhatsAppNotification(formData.order_customer_mobile);
-                                      showNotification("We got your query. We will get back to you soon.", "success");
-                                    }}
+                                    onClick={sendWhatsAppOtp}
                                     disabled={
                                       cartItems.length === 0 ||
                                       isLoadingPrices ||
                                       isSendingOtp
                                     }
                                   >
-                                    {/* {isSendingOtp ? (
+                                    {isSendingOtp ? (
                                       <>
                                         <span className="inline-block animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></span>
                                         Sending OTP...
                                       </>
                                     ) : (
                                       "Book Inspection"
-                                    )} */}
-                                     {isSendingOtp ? (
-            <>
-              <span className="inline-block animate-spin rounded-md h-4 w-4 border-b-2 border-white mr-2"></span>
-              {firebaseAvailable ? "Sending OTP..." : "Processing..."}
-            </>
-          ) : (
-            firebaseAvailable ? "Book Inspection" : "Continue without verification"
-          )}
+                                    )}
                                   </button>
                                 ) : (
                                   <div className="w-full">
