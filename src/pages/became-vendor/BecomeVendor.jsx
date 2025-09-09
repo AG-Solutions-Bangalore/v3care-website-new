@@ -8,6 +8,9 @@ import DefaultHelmet from "../../components/DefaultHelmet/DefaultHelmet";
 const BecomeVendor = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [pincodeLoading, setPincodeLoading] = useState(false);
+  const autoCompleteRef = React.useRef(null);
+    let autoComplete;
+    const [query, setQuery] = React.useState("");
   const [vendor, setVendor] = useState({
     vendor_short: "",
     branch_id: "",
@@ -15,6 +18,8 @@ const BecomeVendor = () => {
     vendor_mobile: "",
     vendor_email: "",
     vendor_aadhar_no: "",
+    vendor_members:"",
+    vendor_years_experience:"",
     vendor_gst_no: "",
     vendor_job_skills: "",
     vendor_images: "",
@@ -31,6 +36,10 @@ const BecomeVendor = () => {
     vendor_ref_name_2: "",
     vendor_ref_mobile_1: "",
     vendor_ref_mobile_2: "",
+    
+
+
+
   });
 
   const [notifications, setNotifications] = useState([]);
@@ -63,6 +72,9 @@ const BecomeVendor = () => {
     vendor_branch_city: "",
     vendor_branch_district: "",
     vendor_branch_state: "",
+    vendor_branch_url:"",
+vendor_branch_locality:"",
+vendor_branch_sub_locality:"",
   };
   const [users1, setUsers1] = useState([useTemplate1]);
 
@@ -124,7 +136,9 @@ const BecomeVendor = () => {
           !!vendor.vendor_email &&
           !!vendor.branch_id &&
           !!vendor.vendor_aadhar_no &&
-          vendor.vendor_aadhar_no.length === 12
+          vendor.vendor_aadhar_no.length === 12 &&
+          !!vendor.vendor_members &&
+          !!vendor.vendor_years_experience 
         );
       case 2: // Documentation
         return !!selectedFile1 && !!selectedFile2 && !!selectedFile3;
@@ -140,7 +154,8 @@ const BecomeVendor = () => {
             !!user.vendor_branch_city &&
             !!user.vendor_branch_district &&
             !!user.vendor_branch_state &&
-            !!user.vendor_branch_location
+            !!user.vendor_branch_location &&
+            !!user.vendor_branch_url
         );
       default:
         return true;
@@ -173,6 +188,8 @@ const BecomeVendor = () => {
       (name === "vendor_mobile" ||
         name === "vendor_ref_mobile_1" ||
         name === "vendor_ref_mobile_2" ||
+        name === "vendor_members" ||
+        name === "vendor_years_experience" ||
         name === "vendor_aadhar_no") &&
       !validateOnlyDigits(value)
     ) {
@@ -248,9 +265,92 @@ const BecomeVendor = () => {
         });
     }
   };
+  const handleScriptLoad = (updateQuery, autoCompleteRef, index) => {
+    try {
+      if (!window.google || !window.google.maps || !window.google.maps.places || !autoCompleteRef.current) {
+        console.error('Google Maps Places API not available or input not ready');
+        return;
+      }
+      autoComplete = new window.google.maps.places.Autocomplete(
+        autoCompleteRef.current,
+        {
+          componentRestrictions: { country: "IN" },
+        }
+      );
+      autoComplete.addListener("place_changed", () => {
+        handlePlaceSelect(updateQuery, index);
+      });
+    } catch (error) {
+      console.error('Error initializing Google Maps Autocomplete:', error);
+    }
+  };
+  
+ 
+  
 
+ 
+  const handlePlaceSelect = async (updateQuery, index) => {
+    try {
+      if (!autoComplete) {
+        console.error('Autocomplete not initialized');
+        return;
+      }
+      const addressObject = await autoComplete.getPlace();
+  
+      if (!addressObject || !addressObject.address_components) {
+        console.error('Invalid address object received');
+        return;
+      }
+      const query = addressObject.formatted_address;
+      const url = addressObject.url;
+      updateQuery(query);
+      let subLocality = '';
+      let locality = '';
+      addressObject.address_components.forEach(component => {
+        if (component.types.includes('sublocality_level_1')) {
+          subLocality = component.short_name;
+        }
+        if (component.types.includes('locality')) {
+          locality = component.short_name;
+        }
+      });
+  
+      setUsers1((prev) =>
+        prev.map((user, i) =>
+          i === index
+            ? {
+                ...user,
+                vendor_branch_url: url,
+                vendor_branch_sub_locality: subLocality,
+                vendor_branch_locality: locality,
+              }
+            : user
+        )
+      );
+    } catch (error) {
+      console.error('Error handling place selection:', error);
+    }
+  };
+  
+  useEffect(() => {
+    if (currentStep === 5 && window.google && window.google.maps && window.google.maps.places) {
+      users1.forEach((_, index) => {
+        handleScriptLoad((query) => setQuery(query), autoCompleteRef, index);
+      });
+    }
+  
+    return () => {
+      if (autoComplete) {
+        autoComplete = null;
+      }
+    };
+  }, [currentStep, users1]);
+  
+  
+  
   const onSubmit = async (e) => {
     e.preventDefault();
+    if (currentStep !== 5) return;
     setLoading(true);
 
     const form = e.currentTarget;
@@ -267,6 +367,8 @@ const BecomeVendor = () => {
     data.append("vendor_email", vendor.vendor_email);
     data.append("branch_id", vendor.branch_id);
     data.append("vendor_aadhar_no", vendor.vendor_aadhar_no);
+    data.append("vendor_members", vendor.vendor_members);
+    data.append("vendor_years_experience", vendor.vendor_years_experience);
     data.append("vendor_gst_no", vendor.vendor_gst_no);
     data.append("vendor_job_skills", vendor.vendor_job_skills);
     data.append("vendor_ref_name_1", vendor.vendor_ref_name_1);
@@ -274,6 +376,11 @@ const BecomeVendor = () => {
     data.append("vendor_ref_name_2", vendor.vendor_ref_name_2);
     data.append("vendor_ref_mobile_2", vendor.vendor_ref_mobile_2);
 
+
+    // data.append("vendor_branch_url", vendor.vendor_branch_url);
+    // data.append("vendor_branch_locality", vendor.vendor_branch_locality);
+    // data.append("vendor_branch_sub_locality", vendor.vendor_branch_sub_locality);
+   
     if (selectedFile1) data.append("vendor_images", selectedFile1);
     if (selectedFile2) data.append("vendor_aadhar_front", selectedFile2);
     if (selectedFile3) data.append("vendor_aadhar_back", selectedFile3);
@@ -319,6 +426,8 @@ const BecomeVendor = () => {
           vendor_mobile: "",
           vendor_email: "",
           vendor_aadhar_no: "",
+          vendor_members: "",
+          vendor_years_experience: "",
           vendor_gst_no: "",
           vendor_job_skills: "",
           vendor_images: "",
@@ -739,7 +848,7 @@ const BecomeVendor = () => {
                   </div>
                 </div>
                 <div className="w-full lg:w-3/4">
-                  <form onSubmit={onSubmit}>
+                  <form >
                     {currentStep === 1 && (
                       <fieldset>
                         <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
@@ -766,6 +875,7 @@ const BecomeVendor = () => {
                                   />
                                 </div>
                               </div>
+                              
                               <div>
                                 <div >
                                   <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -860,6 +970,7 @@ const BecomeVendor = () => {
                                   />
                                 </div>
                               </div>
+                              
                               <div>
                                 <div >
                                   <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -877,6 +988,47 @@ const BecomeVendor = () => {
                                   />
                                 </div>
                               </div>
+
+                              <div>
+                                <div>
+                                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    Members{" "}
+                                    <span className="text-red-500">*</span>
+                                  </label>
+                                  <input
+                                    type="tel"
+                                    className="w-full text-sm px-3 py-2 border border-gray-300 rounded-md  focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                    placeholder=""
+                                   
+                                    maxLength={12}
+                                    name="vendor_members"
+                                    value={vendor.vendor_members}
+                                    onChange={onInputChange}
+                                    required
+                                  />
+                                </div>
+                              </div>
+
+                              <div>
+                                <div>
+                                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                                    Vendero Experience (in Yrs){" "}
+                                    <span className="text-red-500">*</span>
+                                  </label>
+                                  <input
+                                    type="tel"
+                                    className="w-full text-sm px-3 py-2 border border-gray-300 rounded-md  focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                    placeholder=""
+                                   
+                                    maxLength={12}
+                                    name="vendor_years_experience"
+                                    value={vendor.vendor_years_experience}
+                                    onChange={onInputChange}
+                                    required
+                                  />
+                                </div>
+                              </div>
+
                               <div className="col-span-full">
                                 <div >
                                   <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -1371,6 +1523,29 @@ const BecomeVendor = () => {
                                     />
                                   </div>
                                 </div>
+
+                                <div className=" col-span-0 md:col-span-2">
+                                  <div >
+                                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                                      Location      <span className="text-red-500">*</span>
+                                    </label>
+                                    <input
+                                     type="text"
+                                     name="vendor_branch_url"
+                                     ref={autoCompleteRef}
+                                     onChange={(event) => setQuery(event.target.value)}
+                                     placeholder="Search for your address..."
+                                     value={query}
+                                     required
+                                      className="w-full text-sm px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                   
+                                      
+                                      
+                                    />
+                                  </div>
+                                </div>
+
+                                
                               </React.Fragment>
                             ))}
                           </div>
@@ -1378,35 +1553,37 @@ const BecomeVendor = () => {
                       </fieldset>
                     )}
 
-                    <div className="flex justify-end items-center  space-x-2">
-                      {currentStep > 1 && (
-                        <button
-                          type="button"
-                          onClick={handlePrev}
-                          className="px-4 py-2 border border-black text-black rounded-md hover:bg-blue-50"
-                        >
-                          Back
-                        </button>
-                      )}
-                      {currentStep < 5 ? (
-                        <button
-                          type="button"
-                          onClick={handleNext}
-                          className="px-4 py-2 bg-black text-white rounded-md hover:bg-black"
-                        >
-                          Next Step
-                        </button>
-                      ) : (
-                        <button
-                          type="submit"
-                          className="px-4 py-2 bg-black text-white rounded-md hover:bg-black disabled:opacity-50"
-                          disabled={loading}
-                        >
-                          {loading ? "Submitting..." : "Submit"}
-                        </button>
-                      )}
-                    </div>
+                    
                   </form>
+                  <div className="flex justify-end items-center  space-x-2">
+                    {currentStep > 1 && (
+      <button
+        type="button"
+        onClick={handlePrev}
+        className="px-4 py-2 border border-black text-black rounded-md hover:bg-blue-50"
+      >
+        Back
+      </button>
+    )}
+    {currentStep < 5 ? (
+      <button
+        type="button"
+        onClick={handleNext}
+        className="px-4 py-2 bg-black text-white rounded-md hover:bg-black"
+      >
+        Next Step
+      </button>
+    ) : (
+      <button
+        type="submit"
+        onClick={onSubmit}
+        className="px-4 py-2 bg-black text-white rounded-md hover:bg-black disabled:opacity-50 hover:cursor-pointer"
+        disabled={loading}
+      >
+        {loading ? "Submitting..." : "Submit"}
+      </button>
+    )}
+                    </div>
                 </div>
               </div>
             </div>

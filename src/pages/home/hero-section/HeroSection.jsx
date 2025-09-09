@@ -34,6 +34,8 @@ const HeroSection = () => {
     return `${SERVICE_SUPER_IMAGE_URL}/${image}`;
   };
 
+ 
+
   const SkeletonLoader = () => {
     return (
       <div className="hero-section-services">
@@ -55,7 +57,7 @@ const HeroSection = () => {
       <div className="hero-section-container">
         <div className="hero-section-header">
           <h1 className="hero-section-title">
-            Professional Cleaning Services at Your Doorstep
+            Professional Services at Your Doorstep
           </h1>
         </div>
         

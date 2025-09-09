@@ -16,7 +16,7 @@ import DefaultHelmet from "../../components/DefaultHelmet/DefaultHelmet";
 import { auth, RecaptchaVerifier, signInWithPhoneNumber } from '../../firebase/firebase-auth';
 import { Trash2 } from "lucide-react";
 
-let googleMapsScriptLoaded = false;
+
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -33,7 +33,7 @@ const Cart = () => {
   const autoCompleteRef = React.useRef(null);
   const [timeSlot, setTimeSlot] = useState([]);
   const [timeLoading, setTimeLoading] = useState(false);
-  const REACT_APP_GOOGLE_MAPS_KEY = import.meta.env.VITE_GOOGLE_MAPS_KEY;
+  
   const [firebaseAvailable, setFirebaseAvailable] = React.useState(true);
 
   let autoComplete;
@@ -215,21 +215,18 @@ const Cart = () => {
     return true;
   };
 
- 
   const handleScriptLoad = (updateQuery, autoCompleteRef) => {
     try {
       if (!window.google || !window.google.maps || !window.google.maps.places) {
         console.error('Google Maps Places API not available');
         return;
       }
-
       autoComplete = new window.google.maps.places.Autocomplete(
         autoCompleteRef.current,
         {
           componentRestrictions: { country: "IN" },
         }
       );
-
       autoComplete.addListener("place_changed", () => {
         handlePlaceSelect(updateQuery);
       });
@@ -237,6 +234,9 @@ const Cart = () => {
       console.error('Error initializing Google Maps Autocomplete:', error);
     }
   };
+  
+ 
+  
 
  
   const handlePlaceSelect = async (updateQuery) => {
@@ -282,58 +282,12 @@ const Cart = () => {
   };
  
 
-   useEffect(() => {
-      // Check if script is already loaded
-      if (googleMapsScriptLoaded || !REACT_APP_GOOGLE_MAPS_KEY) {
-        return;
-      }
+  useEffect(() => {
+    if (window.google && window.google.maps && window.google.maps.places) {
+      handleScriptLoad(setQuery, autoCompleteRef);
+    }
+  }, []);
   
-      const loadScript = (url, callback) => {
-        const script = document.createElement("script");
-        script.type = "text/javascript";
-        script.id = 'google-maps-script'; // Add ID to track
-  
-        script.onload = () => {
-          googleMapsScriptLoaded = true;
-          callback();
-        };
-  
-        script.onerror = () => {
-          console.error('Failed to load Google Maps script');
-        };
-  
-        script.onreadystatechange = function () {
-          if (
-            script.readyState === "loaded" ||
-            script.readyState === "complete"
-          ) {
-            googleMapsScriptLoaded = true;
-            callback();
-          }
-        };
-        script.src = url;
-        document.getElementsByTagName("head")[0].appendChild(script);
-      };
-  
-      // Check if Google Maps API is already available
-      if (window.google && window.google.maps) {
-        googleMapsScriptLoaded = true;
-        handleScriptLoad(setQuery, autoCompleteRef);
-        return;
-      }
-  
-      loadScript(
-        `https://maps.googleapis.com/maps/api/js?key=${REACT_APP_GOOGLE_MAPS_KEY}&libraries=places`,
-        () => handleScriptLoad(setQuery, autoCompleteRef)
-      );
-  
-      // Cleanup function
-      return () => {
-        // Optional: Remove the script if needed, but usually you want to keep it
-        // const script = document.getElementById('google-maps-script');
-        // if (script) script.remove();
-      };
-    }, [REACT_APP_GOOGLE_MAPS_KEY]);
 
     
   const fetchPricesForAllServices = async (date) => {
