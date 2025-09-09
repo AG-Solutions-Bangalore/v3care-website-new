@@ -50,7 +50,7 @@ const Home = () => {
   return (
     <>
       <DefaultHelmet />
-      
+     
 
       <Suspense fallback={<LoadingPlaceholder />}>
         <HeroSection />

@@ -10,6 +10,7 @@ import './ServiceList.css';
 import { BASE_URL, NO_IMAGE_URL, SERVICE_IMAGE_URL, SERVICE_SUB_IMAGE_URL, SERVICE_SUPER_IMAGE_URL } from '../../config/BaseUrl';
 import DefaultHelmet from '../../components/DefaultHelmet/DefaultHelmet';
 import { Loader } from 'lucide-react';
+import LoadingPlaceholder from '../../components/LoadingPlaceholder/LoadingPlaceholder';
 
 
 
@@ -174,14 +175,15 @@ const ServiceList = () => {
       <>
         <DefaultHelmet/>
   
-        <div className="service-grid-loading-container">
+        {/* <div className="service-grid-loading-container">
           <div className="service-grid-loading-content">
           <div className="flex flex-col text-center items-center">
            <Loader className='text-gray-500 animate-spin'/>
             <p className="mt-3 text-gray-500">Loading services...</p>
           </div>
           </div>
-        </div>
+        </div> */}
+        <LoadingPlaceholder/>
       </>
     );
   }

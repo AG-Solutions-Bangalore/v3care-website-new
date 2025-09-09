@@ -516,7 +516,7 @@ const Navbar = () => {
                   <Icon.Search size={20} />
                 </button>
                 <Link title='Cart' to="/cart" className="home-header-nav-cart-icon">
-                  <Icon.ShoppingCart size={20} />
+                  <Icon.ShoppingCart size={28} />
                   {cartItems.length > 0 && (
                     <span className="home-header-nav-cart-count">{cartItems.length}</span>
                   )}
