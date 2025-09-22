@@ -6,6 +6,7 @@ import JoinUs from './components/JoinUs/JoinUs';
 import SmoothScroll from './components/SmoothScroll/SmoothScroll';
 import CityModal from './components/CityModal/CityModal';
 import LoadingBar from './components/loadingBar/LoadingBar';
+import Location from './pages/home/Location';
 
 
 // Lazy load components for better performance
@@ -68,6 +69,7 @@ function App() {
         <Suspense fallback={<LoadingBar />}>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/location" element={<Location />} />
       <Route path="/client" element={<Client />} />
       <Route path="/blog" element={<Blog />} />
       <Route path="/blog-details/:blogs_slug" element={<BlogDetails />} />

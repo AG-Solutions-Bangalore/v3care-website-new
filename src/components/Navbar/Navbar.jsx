@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux';
 import axios from 'axios';
 import CityModal from '../CityModal/CityModal';
 import { BASE_URL, NO_IMAGE_URL, SERVICE_IMAGE_URL, SERVICE_SUB_IMAGE_URL } from '../../config/BaseUrl';
-import './Navbar.css'
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 
@@ -208,21 +207,21 @@ const Navbar = () => {
   const renderSearchResults = () => (
     <>
       {isSearching ? (
-        <div className="home-header-nav-search-loading">
-          <div className="home-header-nav-spinner"></div>
+        <div className="flex items-center p-2 gap-2 text-gray-500">
+          <div className="w-4 h-4 border-2 border-t-blue-500 border-gray-300 rounded-full animate-spin"></div>
           <span>Searching...</span>
         </div>
       ) : searchError ? (
-        <div className="home-header-nav-search-error">
+        <div className="flex items-center p-2 gap-2 text-red-500">
           <Icon.AlertCircle size={16} />
           <span>{searchError}</span>
         </div>
       ) : filteredServices.length > 0 ? (
-        <div className="home-header-nav-search-results-list">
+        <div className="py-1">
           {filteredServices.map(service => (
             <div 
               key={service.id} 
-              className="home-header-nav-search-result-item"
+              className="flex items-center p-2 hover:bg-gray-100 cursor-pointer"
               onClick={(e) => handleServiceClick(service, e)}
               role="button" 
               tabIndex={0}
@@ -233,23 +232,24 @@ const Navbar = () => {
                 }
               }}
             >
-              <div className="home-header-nav-search-result-image">
+              <div className="w-10 h-10 rounded-full overflow-hidden mr-3 flex-shrink-0">
                 <LazyLoadImage
                   src={getImageUrlService(service.service_image)}
                   alt={service.service}
                   effect="blur"
                   width="40"
                   height="40"
+                  className="w-full h-full object-cover"
                 />
               </div>
-              <div className="home-header-nav-search-result-content">
-                <h4>{highlightMatch(service.service, searchQuery)}</h4>
+              <div className="truncate">
+                <h4 className="text-sm font-medium text-gray-800">{highlightMatch(service.service, searchQuery)}</h4>
               </div>
             </div>
           ))}
         </div>
       ) : (
-        <div className="home-header-nav-no-results">
+        <div className="flex items-center p-2 gap-2 text-gray-500">
           <Icon.Search size={18} />
           <span>No services found</span>
         </div>
@@ -268,297 +268,241 @@ const Navbar = () => {
       )}
 
       {/* Subservice Modal */}
-    
       {showSubServiceModal && selectedService && (
-  <div className="fixed inset-0 z-[9999] overflow-y-auto">
-    {/* Backdrop */}
-    <div
-      className="fixed inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-300 ease-in-out"
-      aria-hidden="true"
-      onClick={() => setShowSubServiceModal(false)}
-    />
-
-    {/* Modal container */}
-    <div className="flex min-h-screen items-center justify-center p-2 text-center">
-      <div className="relative w-full max-w-3xl transform overflow-hidden rounded-xl bg-white shadow-xl transition-all duration-300 ease-out sm:w-full sm:max-w-2xl">
-        
-        {/* Header */}
-        <div className="flex items-center justify-between bg-gray-900 px-4 py-2">
-          <div className="flex items-center space-x-2">
-            <div className="flex h-8 w-8 items-center justify-center rounded-md bg-white/10 backdrop-blur-sm">
-              <Icon.Grid className="h-4 w-4 text-white" />
-            </div>
-            <h3 className="text-base font-semibold text-white">
-              Select <span className="bg-gradient-to-r from-white to-red-500 bg-clip-text text-transparent">{selectedService?.service}</span>
-            </h3>
-          </div>
-          <button
-            type="button"
-            className="group cursor-pointer rounded-full p-1 text-gray-200 hover:bg-white/10 hover:text-white transition-all duration-200"
+        <div className="fixed inset-0 z-[9999] overflow-y-auto">
+          {/* Backdrop */}
+          <div
+            className="fixed inset-0 bg-black/40 backdrop-blur-sm transition-opacity duration-300 ease-in-out"
+            aria-hidden="true"
             onClick={() => setShowSubServiceModal(false)}
-          >
-            <span className="sr-only">Close</span>
-            <svg 
-              className="h-5 w-5 group-hover:rotate-90 transition-transform duration-200" 
-              fill="none" 
-              viewBox="0 0 24 24" 
-              stroke="currentColor"
-            >
-              <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth={2} 
-                d="M6 18L18 6M6 6l12 12" 
-              />
-            </svg>
-          </button>
-        </div>
+          />
 
-        {/* Body */}
-        <div className="max-h-[65vh] overflow-y-auto p-4 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
-          {subServiceLoading ? (
-            <div className="flex h-64 items-center justify-center">
-              <div className="h-10 w-10 animate-spin rounded-full border-4 border-blue-500 border-t-transparent" />
-            </div>
-          ) : (
-            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
-              {subServices.map((subService) => (
-                <div
-                  key={subService.id}
-                  className="group relative overflow-hidden rounded-md border border-gray-200 bg-white shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 cursor-pointer"
-                  onClick={() => handleSubServiceClick(subService)}
-                >
-                  {/* Image */}
-                  <div className="relative overflow-hidden">
-                  <LazyLoadImage
-                        src={getImageUrlService(subService.service_sub_image, true)}
-                        alt={subService.service_sub}
-                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                        effect="blur"
-                        width="100%"
-                        height="100%"
-                        placeholderSrc={NO_IMAGE_URL}
-                        onError={(e) => {
-                          e.target.src = NO_IMAGE_URL;
-                        }}
-                      />
-                    <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          {/* Modal container */}
+          <div className="flex min-h-screen items-center justify-center p-2 text-center">
+            <div className="relative w-full max-w-3xl transform overflow-hidden rounded-xl bg-white shadow-xl transition-all duration-300 ease-out sm:w-full sm:max-w-2xl">
+              
+              {/* Header */}
+              <div className="flex items-center justify-between bg-gray-900 px-4 py-2">
+                <div className="flex items-center space-x-2">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-md bg-white/10 backdrop-blur-sm">
+                    <Icon.Grid className="h-4 w-4 text-white" />
                   </div>
-
-                  {/* Content */}
-                  <div className="p-2 text-center">
-                    <h6 className="text-xs font-medium text-gray-800 line-clamp-2 group-hover:text-blue-600 transition-colors">
-                      {subService.service_sub}
-                    </h6>
-                  </div>
+                  <h3 className="text-base font-semibold text-white">
+                    Select <span className="bg-gradient-to-r from-white to-red-500 bg-clip-text text-transparent">{selectedService?.service}</span>
+                  </h3>
                 </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Footer */}
-        <div className="border-t border-gray-200 bg-gray-50 px-4 py-2">
-          <div className="flex justify-end">
-            <button
-              type="button"
-              className="rounded-md bg-gray-800 px-4 py-1.5 text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2"
-              onClick={() => setShowSubServiceModal(false)}
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-)}
-
-      <header className={`home-header-nav `}>
-        <div className="home-header-nav-container">
-          <div className="home-header-nav-brand">
-            <Link title='Home' to="/" className="home-header-nav-logo-link">
-              <img 
-                src={logoNav} 
-                className="home-header-nav-logo-img" 
-                alt="Company Logo"
-                width="60"
-                height="60"
-                loading="eager"
-              />
-            </Link>
-          </div>
-
-          <div className="home-header-nav-top-content">
-            <div className="home-header-nav-contact-info">
-              <button className="home-header-nav-city-selector" onClick={handleCityClick}>
-                <Icon.MapPin size={16} />
-                <span className="home-header-nav-contact-text">{currentCity || 'Select City'}</span>
-              </button>
-              
-              <div className="home-header-nav-contact-item">
-                <Icon.Phone size={16} />
-                <a href="tel:+919880778585"      target="_blank"
-            rel="noreferrer" className="home-header-nav-contact-text">+91 9880778585</a>
-              </div>
-              
-              <div className="home-header-nav-contact-item">
-                <Icon.Mail size={16} />
-                <a href="mailto:info@v3care.in"      target="_blank"
-            rel="noreferrer" className="home-header-nav-contact-text">info@v3care.in</a>
-              </div>
-            </div>
-
-            <div className="home-header-nav-contact-icons">
-              <button className="home-header-nav-city-selector" onClick={handleCityClick}>
-                <Icon.MapPin size={16} />
-              </button>
-              <a href="tel:+919880778585" className="home-header-nav-contact-icon-btn">
-                <Icon.Phone size={18} />
-              </a>
-              <a href="mailto:info@v3care.in" className="home-header-nav-contact-icon-btn">
-                <Icon.Mail size={18} />
-              </a>
-            </div>
-
-            <div className="home-header-nav-top-actions">
-            <Link title='Apply Job' to="/apply-job" className="home-header-nav-vendor-btn">
-                <Icon.Briefcase size={16} />
-                <span className="home-header-nav-btn-text">Apply For Job</span>
-              </Link>
-              <Link title='Become Partner' to="/become-partner" className="home-header-nav-vendor-btn">
-                <Icon.User size={16} />
-                <span className="home-header-nav-btn-text">Become Partner</span>
-              </Link>
-              
-            </div>
-          </div>
-
-          <div className="home-header-nav-bottom-content">
-            <div className="home-header-nav-actions-container">
-              <nav className="home-header-nav-desktop-nav">
-                <ul className="home-header-nav-links">
-                  <li className={isRouteActive('/') ? 'active' : ''}>
-                    <Link title='Home' to="/">Home</Link>
-                  </li>
-                  <li className={isRouteActive('/service') ? 'active' : ''}>
-                    <Link title='Services' to="/service">Services</Link>
-                  </li>
-                  <li className="home-header-nav-search-nav-item">
-                    <div className="home-header-nav-search-container">
-                      <input
-                        type="text"
-                        placeholder="Search services..."
-                        value={searchQuery}
-                        onChange={handleSearchChange}
-                        onFocus={handleSearchFocus}
-                        className="home-header-nav-search-input"
-                        ref={searchInputRef}
-                      />
-                      <Icon.Search size={18} className="home-header-nav-search-icon" />
-                      {showSearchResults && (
-                        <div className="home-header-nav-search-results-dropdown" ref={searchResultsRef}>
-                          {renderSearchResults()}
-                        </div>
-                      )}
-                    </div>
-                  </li>
-                </ul>
-              </nav>
-
-              <nav className="home-header-nav-medium-nav">
-                <ul className="home-header-nav-links">
-                  <li className={isRouteActive('/') ? 'active' : ''}>
-                    <Link title='Home' to="/">Home</Link>
-                  </li>
-                  <li className={isRouteActive('/service') ? 'active' : ''}>
-                    <Link title='Services' to="/service">Services</Link>
-                  </li>
-                  <li className="home-header-nav-search-nav-item">
-                    <div className="home-header-nav-search-container">
-                      <input
-                        type="text"
-                        placeholder="Search..."
-                        value={searchQuery}
-                        onChange={handleSearchChange}
-                        onFocus={handleSearchFocus}
-                        className="home-header-nav-search-input"
-                        ref={searchInputRef}
-                      />
-                      <Icon.Search size={18} className="home-header-nav-search-icon" />
-                      {showSearchResults && (
-                        <div className="home-header-nav-search-results-dropdown" ref={searchResultsRef}>
-                          {renderSearchResults()}
-                        </div>
-                      )}
-                    </div>
-                  </li>
-                </ul>
-              </nav>
-
-              <nav className="home-header-nav-medium-nav-for-sevenone">
-                <ul className="home-header-nav-links">
-                  <li className={isRouteActive('/') ? 'active' : ''}>
-                    <Link title='Home' to="/">Home</Link>
-                  </li>
-                  <li className={isRouteActive('/service') ? 'active' : ''}>
-                    <Link title='Services' to="/service">Services</Link>
-                  </li>
-                </ul>
-              </nav>
-
-              <div className="home-header-nav-bottom-actions">
-                <button 
-                  className="home-header-nav-search-icon-trigger" 
-                  onClick={toggleMobileSearch}
-                  aria-label="Search"
+                <button
+                  type="button"
+                  className="group cursor-pointer rounded-full p-1 text-gray-200 hover:bg-white/10 hover:text-white transition-all duration-200"
+                  onClick={() => setShowSubServiceModal(false)}
                 >
-                  <Icon.Search size={20} />
+                  <span className="sr-only">Close</span>
+                  <svg 
+                    className="h-5 w-5 group-hover:rotate-90 transition-transform duration-200" 
+                    fill="none" 
+                    viewBox="0 0 24 24" 
+                    stroke="currentColor"
+                  >
+                    <path 
+                      strokeLinecap="round" 
+                      strokeLinejoin="round" 
+                      strokeWidth={2} 
+                      d="M6 18L18 6M6 6l12 12" 
+                    />
+                  </svg>
                 </button>
-                <Link title='Cart' to="/cart" className="home-header-nav-cart-icon">
-                  <Icon.ShoppingCart size={28} />
-                  {cartItems.length > 0 && (
-                    <span className="home-header-nav-cart-count">{cartItems.length}</span>
-                  )}
-                </Link>
+              </div>
+
+              {/* Body */}
+              <div className="max-h-[65vh] overflow-y-auto p-4 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
+                {subServiceLoading ? (
+                  <div className="flex h-64 items-center justify-center">
+                    <div className="h-10 w-10 animate-spin rounded-full border-4 border-blue-500 border-t-transparent" />
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
+                    {subServices.map((subService) => (
+                      <div
+                        key={subService.id}
+                        className="group relative overflow-hidden rounded-md border border-gray-200 bg-white shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 cursor-pointer"
+                        onClick={() => handleSubServiceClick(subService)}
+                      >
+                        {/* Image */}
+                        <div className="relative overflow-hidden">
+                          <LazyLoadImage
+                            src={getImageUrlService(subService.service_sub_image, true)}
+                            alt={subService.service_sub}
+                            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                            effect="blur"
+                            width="100%"
+                            height="100%"
+                            placeholderSrc={NO_IMAGE_URL}
+                            onError={(e) => {
+                              e.target.src = NO_IMAGE_URL;
+                            }}
+                          />
+                          <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                        </div>
+
+                        {/* Content */}
+                        <div className="p-2 text-center">
+                          <h6 className="text-xs font-medium text-gray-800 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                            {subService.service_sub}
+                          </h6>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Footer */}
+              <div className="border-t border-gray-200 bg-gray-50 px-4 py-2">
+                <div className="flex justify-end">
+                  <button
+                    type="button"
+                    className="rounded-md bg-gray-800 px-4 py-1.5 text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-gray-500 focus-visible:ring-offset-2"
+                    onClick={() => setShowSubServiceModal(false)}
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      <header className="bg-white shadow-md w-full sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-20">
+            {/* Logo */}
+            <div className="flex-shrink-0">
+              <Link title="Home" to="/" className="flex items-center">
+                <img 
+                  src={logoNav} 
+                  className="h-16 w-auto" 
+                  alt="Company Logo"
                 
-                <Link title='Service' to="/service" className="home-header-nav-book-now-btn">
-                  <span className="home-header-nav-btn-text">Book Now</span>
-                </Link>
+                  loading="eager"
+                />
+              </Link>
+            </div>
 
-                <Link title='Become Partner' to="/become-partner" className="home-header-nav-vendor-btn-mobile">
-                  <Icon.User size={16} />
-                </Link>
-
-                <button 
-                  className="home-header-nav-menu-toggle" 
-                  onClick={toggleMenu} 
-                  aria-label="Toggle menu" 
-                  ref={toggleButtonRef}
-                >
-                  <Icon.Menu size={24} />
-                </button>
+            {/* Desktop Navigation */}
+            <nav className="hidden md:flex items-center space-x-8">
+              <Link 
+                to="/" 
+                className={`text-gray-700 hover:text-black px-3 py-2 text-sm font-medium ${isRouteActive('/') ? 'text-black font-semibold border-b-2 border-black' : ''}`}
+              >
+                Home
+              </Link>
+              <Link 
+                to="/service" 
+                className={`text-gray-700 hover:text-black px-3 py-2 text-sm font-medium ${isRouteActive('/service') ? 'text-black font-semibold border-b-2 border-black' : ''}`}
+              >
+                Services
+              </Link>
+              
+              {/* Search Bar */}
+              <div className="relative ">
+                <div className="relative flex items-center">
+                  <input
+                    type="text"
+                    placeholder="Search services..."
+                    value={searchQuery}
+                    onChange={handleSearchChange}
+                    onFocus={handleSearchFocus}
+                    className="pl-3 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent w-64"
+                    ref={searchInputRef}
+                  />
+                  <Icon.Search size={18} className="absolute right-3 text-gray-400" />
+                </div>
+                
+                {showSearchResults && (
+                  <div className="absolute top-full left-0 right-0 bg-white border border-gray-200 rounded-md shadow-lg mt-1 z-10 max-h-96 overflow-y-auto">
+                    {renderSearchResults()}
+                  </div>
+                )}
               </div>
+            </nav>
+
+            {/* Right side actions */}
+            <div className="flex items-center space-x-4">
+              {/* City Selector */}
+              <button 
+                onClick={handleCityClick}
+                className="hidden md:flex items-center text-gray-700 hover:text-black px-3 py-2 text-sm font-medium"
+              >
+                <Icon.MapPin size={16} className="mr-1" />
+                <span>{currentCity || 'Select City'}</span>
+              </button>
+
+              {/* Become Partner */}
+              <Link 
+                title="Become Partner" 
+                to="/become-partner" 
+                className="hidden md:flex items-center bg-white text-black border border-black rounded-lg px-4 py-2 text-sm font-medium hover:bg-black hover:text-white transition-colors"
+              >
+                <Icon.User size={16} className="mr-1" />
+                <span>Become Partner</span>
+              </Link>
+
+              {/* Cart */}
+              <Link 
+                title="Cart" 
+                to="/cart" 
+                className="relative p-2 text-gray-700 hover:text-black"
+              >
+                <Icon.ShoppingCart size={24} />
+                {cartItems.length > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-black text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                    {cartItems.length}
+                  </span>
+                )}
+              </Link>
+
+              {/* Mobile Search Button */}
+              <button 
+                className="md:hidden p-2 text-gray-700 hover:text-black"
+                onClick={toggleMobileSearch}
+                aria-label="Search"
+              >
+                <Icon.Search size={20} />
+              </button>
+
+              {/* Mobile Menu Button */}
+              <button 
+                className="md:hidden p-2 text-gray-700 hover:text-black"
+                onClick={toggleMenu}
+                aria-label="Toggle menu"
+                ref={toggleButtonRef}
+              >
+                <Icon.Menu size={24} />
+              </button>
             </div>
           </div>
         </div>
 
         {/* Mobile Search Modal */}
         {showMobileSearchModal && (
-          <div className="home-header-nav-mobile-search-modal">
-            <div className="home-header-nav-mobile-search-container">
-              <input
-                type="text"
-                placeholder="Search services..."
-                value={searchQuery}
-                onChange={handleSearchChange}
-                onFocus={handleSearchFocus} 
-                className="home-header-nav-mobile-search-input"
-                ref={mobileSearchInputRef}
-                autoFocus
-              />
+          <div className="fixed inset-0 bg-white z-50 md:hidden">
+            <div className="flex items-center p-4 border-b">
+              <div className="relative flex-1">
+                <input
+                  type="text"
+                  placeholder="Search services..."
+                  value={searchQuery}
+                  onChange={handleSearchChange}
+                  onFocus={handleSearchFocus}
+                  className="w-full pl-3 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-black focus:border-transparent"
+                  ref={mobileSearchInputRef}
+                  autoFocus
+                />
+                <Icon.Search size={18} className="absolute right-3 top-3 text-gray-400" />
+              </div>
               <button 
-                className="home-header-nav-mobile-search-close" 
+                className="ml-2 p-2 text-gray-700"
                 onClick={toggleMobileSearch}
                 aria-label="Close search"
               >
@@ -566,84 +510,143 @@ const Navbar = () => {
               </button>
             </div>
             
-            <div className="home-header-nav-mobile-search-results">
+            <div className="p-4 max-h-screen overflow-y-auto">
               {renderSearchResults()}
             </div>
           </div>
         )}
 
-        <div className={`home-header-nav-sidebar-overlay ${isMenuOpen ? 'open' : ''}`} onClick={closeMenu}></div>
-        <div className={`home-header-nav-mobile-sidebar ${isMenuOpen ? 'open' : ''}`} ref={sidebarRef}>
-          <div className="home-header-nav-sidebar-header">
-            <Link title='Home' to="/" className="home-header-nav-sidebar-logo" onClick={closeMenu}>
-              <img 
-                src={logoNav} 
-                alt="Company Logo"
-                width="60"
-                height="60"
-                loading="lazy"
-              />
-            </Link>
-            <button className="home-header-nav-sidebar-close" onClick={closeMenu} aria-label="Close menu">
-              <Icon.X size={24} />
-            </button>
-          </div>
-    
-          <div className="home-header-nav-sidebar-content">
-            <div className="home-header-nav-sidebar-city-selector" onClick={() => { handleCityClick(); closeMenu(); }}>
-              <Icon.MapPin size={18} />
-              <span>{currentCity || 'Select Your City'}</span>
+        {/* Mobile Sidebar */}
+        <div 
+          className={`fixed inset-0 z-50 transform ${isMenuOpen ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out md:hidden`}
+          ref={sidebarRef}
+        >
+          {/* Overlay */}
+          <div 
+            className="absolute inset-0 bg-black/20 bg-opacity-50"
+            onClick={closeMenu}
+          ></div>
+          
+          {/* Sidebar Content */}
+          <div className="relative w-80 max-w-full bg-white h-full overflow-y-auto">
+            <div className="flex items-center justify-between p-4 border-b">
+              <Link title="Home" to="/" className="flex items-center" onClick={closeMenu}>
+                <img 
+                  src={logoNav} 
+                  alt="Company Logo"
+                  width="60"
+                  height="60"
+                  loading="lazy"
+                  className="h-10 w-auto"
+                />
+              </Link>
+              <button 
+                className="p-2 text-gray-700"
+                onClick={closeMenu}
+                aria-label="Close menu"
+              >
+                <Icon.X size={24} />
+              </button>
             </div>
-    
-            <ul className="home-header-nav-sidebar-links">
-              <li className={isRouteActive('/') ? 'active' : ''}>
-                <Link to="/" onClick={closeMenu}>
-                  <Icon.Home size={18} />
-                  <span>Home</span>
+      
+            <div className="p-4">
+              <div 
+                className="flex items-center w-full bg-gray-100 rounded-lg p-3 mb-4 cursor-pointer"
+                onClick={() => { handleCityClick(); closeMenu(); }}
+              >
+                <Icon.MapPin size={18} className="mr-2" />
+                <span>{currentCity || 'Select Your City'}</span>
+              </div>
+      
+              <ul className="space-y-2">
+                <li className={isRouteActive('/') ? 'bg-gray-100 rounded-lg' : ''}>
+                  <Link 
+                    to="/" 
+                    onClick={closeMenu}
+                    className="flex items-center p-3 text-gray-700 hover:text-black"
+                  >
+                    <Icon.Home size={18} className="mr-3" />
+                    <span>Home</span>
+                  </Link>
+                </li>
+                <li className={isRouteActive('/about-us') ? 'bg-gray-100 rounded-lg' : ''}>
+                  <Link 
+                    title="About Us" 
+                    to="/about-us" 
+                    onClick={closeMenu}
+                    className="flex items-center p-3 text-gray-700 hover:text-black"
+                  >
+                    <Icon.Info size={18} className="mr-3" />
+                    <span>About Us</span>
+                  </Link>
+                </li>
+                <li className={isRouteActive('/service') ? 'bg-gray-100 rounded-lg' : ''}>
+                  <Link 
+                    title="Service" 
+                    to="/service" 
+                    onClick={closeMenu}
+                    className="flex items-center p-3 text-gray-700 hover:text-black"
+                  >
+                    <Icon.Settings size={18} className="mr-3" />
+                    <span>Services</span>
+                  </Link>
+                </li>
+                <li className={isRouteActive('/client') ? 'bg-gray-100 rounded-lg' : ''}>
+                  <Link 
+                    title="Client" 
+                    to="/client" 
+                    onClick={closeMenu}
+                    className="flex items-center p-3 text-gray-700 hover:text-black"
+                  >
+                    <Icon.Users size={18} className="mr-3" />
+                    <span>Clients</span>
+                  </Link>
+                </li>
+                <li className={isRouteActive('/blog') ? 'bg-gray-100 rounded-lg' : ''}>
+                  <Link 
+                    title="Blog" 
+                    to="/blog" 
+                    onClick={closeMenu}
+                    className="flex items-center p-3 text-gray-700 hover:text-black"
+                  >
+                    <Icon.BookOpen size={18} className="mr-3" />
+                    <span>Blog</span>
+                  </Link>
+                </li>
+                <li className={isRouteActive('/contact-us') ? 'bg-gray-100 rounded-lg' : ''}>
+                  <Link 
+                    title="Contact Us" 
+                    to="/contact-us" 
+                    onClick={closeMenu}
+                    className="flex items-center p-3 text-gray-700 hover:text-black"
+                  >
+                    <Icon.Mail size={18} className="mr-3" />
+                    <span>Contact Us</span>
+                  </Link>
+                </li>
+              </ul>
+      
+              <div className="mt-8 space-y-3">
+                <Link 
+                  title="Become Partner" 
+                  to="/become-partner" 
+                  className="flex items-center justify-center w-full bg-white text-black border border-black rounded-lg p-3 font-medium hover:bg-black hover:text-white transition-colors"
+                  onClick={closeMenu}
+                >
+                  <Icon.User size={18} className="mr-2" />
+                  <span>Become Partner</span>
                 </Link>
-              </li>
-              <li className={isRouteActive('/about-us') ? 'active' : ''}>
-                <Link  title='About Us' to="/about-us" onClick={closeMenu}>
-                  <Icon.Info size={18} />
-                  <span>About Us</span>
+                
+                <Link 
+                  title="Service" 
+                  to="/service" 
+                  className="flex items-center justify-center w-full bg-black text-white rounded-lg p-3 font-medium hover:bg-gray-800 transition-colors"
+                  onClick={closeMenu}
+                >
+                  <Icon.Plus size={18} className="mr-2" />
+                  <span>Book Now</span>
                 </Link>
-              </li>
-              <li className={isRouteActive('/service') ? 'active' : ''}>
-                <Link title='Service' to="/service" onClick={closeMenu}>
-                  <Icon.Settings size={18} />
-                  <span>Services</span>
-                </Link>
-              </li>
-              <li className={isRouteActive('/client') ? 'active' : ''}>
-                <Link title='Client' to="/client" onClick={closeMenu}>
-                  <Icon.Users size={18} />
-                  <span>Clients</span>
-                </Link>
-              </li>
-              <li className={isRouteActive('/blog') ? 'active' : ''}>
-                <Link title='Blog' to="/blog" onClick={closeMenu}>
-                  <Icon.BookOpen size={18} />
-                  <span>Blog</span>
-                </Link>
-              </li>
-              <li className={isRouteActive('/contact-us') ? 'active' : ''}>
-                <Link title='Contact Us' to="/contact-us" onClick={closeMenu}>
-                  <Icon.Mail size={18} />
-                  <span>Contact Us</span>
-                </Link>
-              </li>
-            </ul>
-    
-            <div className="home-header-nav-sidebar-actions">
-              <Link title='Become Partner' to="/become-partner" className="home-header-nav-sidebar-vendor-btn" onClick={closeMenu}>
-                <Icon.User size={18} />
-                <span>Become Partner</span>
-              </Link>
-              
-              <Link title='Service' to="/service" className="home-header-nav-sidebar-header-book-now-btn" onClick={closeMenu}>
-                <Icon.Plus size={18} />
-                <span>Book Now</span>
-              </Link>
+              </div>
             </div>
           </div>
         </div>

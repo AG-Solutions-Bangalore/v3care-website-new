@@ -107,7 +107,7 @@ const HeroSection = () => {
                 </div>
                 <div className="hero-section-stat-content">
                   
-                  <span className="hero-section-stat-number">12M+</span>
+                  <span className="hero-section-stat-number">1M+</span>
                   <span className="hero-section-stat-text">Customers Globally*</span>
                 </div>
               </div>
