@@ -89,6 +89,9 @@ const Footer = () => {
                   <li>
                     <Link title='Blog' to='/blog'>Blog</Link>
                   </li>
+                  <li>
+                    <Link title='Blog' to='/apply-job'>Apply For Job</Link>
+                  </li>
                 </ul>
               </div>
             </div>
