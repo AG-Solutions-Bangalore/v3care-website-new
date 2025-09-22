@@ -374,7 +374,7 @@ const Navbar = () => {
       )}
 
       <header className="bg-white shadow-md w-full sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-8xl mx-auto px-2 ">
           <div className="flex items-center justify-between h-20">
             {/* Logo */}
             <div className="flex-shrink-0">
@@ -432,7 +432,7 @@ const Navbar = () => {
               {/* City Selector */}
               <button 
                 onClick={handleCityClick}
-                className="hidden md:flex items-center text-gray-700 hover:text-black px-3 py-2 text-sm font-medium"
+                className="hidden hover:cursor-pointer md:flex items-center text-gray-700 hover:text-black px-3 py-2 text-sm font-medium"
               >
                 <Icon.MapPin size={16} className="mr-1" />
                 <span>{currentCity || 'Select City'}</span>
