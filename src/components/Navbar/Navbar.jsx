@@ -452,11 +452,11 @@ const Navbar = () => {
               <Link 
                 title="Cart" 
                 to="/cart" 
-                className="relative p-2 text-gray-700 hover:text-black"
+                className="relative p-2 text-gray-700 bg-black rounded-full hover:text-black"
               >
-                <Icon.ShoppingCart size={24} />
+                <Icon.ShoppingCart size={24} className='text-white' />
                 {cartItems.length > 0 && (
-                  <span className="absolute -top-1 -right-1 bg-black text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                  <span className="absolute -top-1 -right-1 bg-white text-black border text-xs rounded-full h-5 w-5 flex items-center justify-center">
                     {cartItems.length}
                   </span>
                 )}
