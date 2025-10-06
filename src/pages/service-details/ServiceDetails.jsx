@@ -14,6 +14,7 @@ import "react-quill/dist/quill.snow.css";
 import { BASE_URL ,  NO_IMAGE_URL,  SERVICE_DETAILS_IMAGE_URL,} from '../../config/BaseUrl';
 import { addToCart } from '../../redux/slices/CartSlice';
 import { ChevronDown, ChevronUp, Loader } from 'lucide-react';
+import { getCurrentDate } from '../../utils/getCurrentDate';
 const ServiceDetails = () => {
   const dispatch = useDispatch();
 
@@ -36,7 +37,7 @@ const ServiceDetails = () => {
   const { state } = location;
   const navigate = useNavigate();
   const branch_id = localStorage.getItem('branch_id');
-
+  const current_date = getCurrentDate()
   const city = localStorage.getItem('city') || 'your area';
   const message = `We're not available in ${city} at the moment, but we're expanding and will be there soon!`;
 
@@ -91,6 +92,7 @@ const ServiceDetails = () => {
           branch_id: branch_id,
           order_service: service_name,
           order_service_sub: service_sub_name,
+          order_service_date: current_date,
         },
       );
 
