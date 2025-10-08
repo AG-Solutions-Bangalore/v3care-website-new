@@ -233,7 +233,12 @@ const ServiceDetails = () => {
       </div>
   
       <div className="min-h-screen bg-gray-50 ">
-        <div
+   
+     
+   
+
+
+        {/* <div
           className={`lg:hidden fixed bottom-0 left-0 right-0 w-full text-white z-[1000] shadow-md transition-all duration-300 overflow-hidden ${
             showBreakdown ? 'rounded-t-none' : 'rounded-t-xl'
           }`}
@@ -286,10 +291,13 @@ const ServiceDetails = () => {
               </div>
             )}
           </div>
-        </div>
+        </div> */}
   
         <div className="py-8">
           <div className="max-w-[85rem]  mx-auto px-4 sm:px-6 lg:px-8">
+          <p className='font-medium text-xl pb-2 px-2 text-transparent  bg-gradient-to-r from-red-700  to-blue-900 bg-clip-text'>
+          Weekend rates should be set differently from weekday prices 
+          </p>
             <div className="flex flex-col lg:flex-row gap-6">
               <div className="lg:w-7/12">
                 <div className="bg-white rounded-lg shadow-sm">
