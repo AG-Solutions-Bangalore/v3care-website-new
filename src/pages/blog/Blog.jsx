@@ -3,13 +3,14 @@ import { Link } from 'react-router-dom';
 import * as Icon from 'react-feather';
 import axios from 'axios';
 import moment from 'moment';
-import DefaultHelmet from '../../components/DefaultHelmet/DefaultHelmet';
+
 import BreadCrumb from '../../components/BreadCrumb/BreadCrumb';
 import { BASE_URL, BLOG_IMAGE_URL } from '../../config/BaseUrl';
 import { all_routes } from '../../routes/all_routes';
 import { Loader } from 'lucide-react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
+import { Helmet } from 'react-helmet-async';
 
 const Blog = () => {
   const routes = all_routes;
@@ -91,7 +92,18 @@ const Blog = () => {
   if (loading && blogs.length === 0) {
     return (
       <>
-        <DefaultHelmet/>
+         <Helmet>
+                      <title>
+                      Professional House Cleaning Service Tips | V3Care Blog
+                      </title>
+                    
+                        <meta name="title" content='Professional House Cleaning Service Tips | V3Care Blog' />
+                    
+                  
+                        <meta name="description" content='Get expert insights on professional house cleaning service at V3Care Blog. Trusted cleaning tips, hacks, and guides for a sparkling, hygienic home.' />
+            
+                     
+                    </Helmet>
         <BreadCrumb title="Services" item1="Services" />
         <div className="flex justify-center items-center h-screen">
           <div className="flex flex-col text-center items-center">
@@ -106,7 +118,18 @@ const Blog = () => {
   if (error) {
     return (
       <>
-        <DefaultHelmet/>
+     <Helmet>
+                      <title>
+                      Professional House Cleaning Service Tips | V3Care Blog
+                      </title>
+                    
+                        <meta name="title" content='Professional House Cleaning Service Tips | V3Care Blog' />
+                    
+                  
+                        <meta name="description" content='Get expert insights on professional house cleaning service at V3Care Blog. Trusted cleaning tips, hacks, and guides for a sparkling, hygienic home.' />
+            
+                     
+                    </Helmet>
         <BreadCrumb title="Services" item1="Services" />
         <div className="flex justify-center items-center h-1/2">
           <div className="flex items-center p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg" role="alert">
@@ -127,7 +150,18 @@ const Blog = () => {
   
   return (
     <>
-      <DefaultHelmet/>
+      <Helmet>
+                      <title>
+                      Professional House Cleaning Service Tips | V3Care Blog
+                      </title>
+                    
+                        <meta name="title" content='Professional House Cleaning Service Tips | V3Care Blog' />
+                    
+                  
+                        <meta name="description" content='Get expert insights on professional house cleaning service at V3Care Blog. Trusted cleaning tips, hacks, and guides for a sparkling, hygienic home.' />
+            
+                     
+                    </Helmet>
       <BreadCrumb title="Blog" item1="Blog" />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Blog Grid */}
