@@ -6,14 +6,14 @@ const DefaultHelmet = () => {
   
   return (
     <Helmet>
-      <title>Best house cleaning service | V3 Care</title>
+      <title>Best House Cleaning Services | V3 Care</title>
       <meta
         name="title"
-        content="Best house cleaning service | Affordable cleaning services."
+        content="Best House Cleaning Services | V3 Care"
       />
       <meta
         name="description"
-        content="Get professional high quality cleaning services at affordable prices, Book house cleaning, office cleaning, deep cleaning & bathroom cleaning services."
+        content="Get spotless homes with V3 Care, offering the best house cleaning services for a fresh and hygienic living space. Book your service today!"
       />
      
     </Helmet>

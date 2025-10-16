@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import DefaultHelmet from '../../components/DefaultHelmet/DefaultHelmet';
+
 import { BASE_URL, CLIENT_IMAGE_URL, NO_IMAGE_URL } from '../../config/BaseUrl';
 import BreadCrumb from '../../components/BreadCrumb/BreadCrumb';
 import { Loader } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 
 
 const Client = () => {
@@ -38,7 +39,18 @@ const Client = () => {
 
   return (
     <>
-      <DefaultHelmet/>
+   <Helmet>
+                  <title>
+                  Our Clients | Affordable Cleaning Services
+                  </title>
+                
+                    <meta name="title" content='Our Clients | Affordable Cleaning Services' />
+                
+              
+                    <meta name="description" content='Discover why clients trust V3Care for affordable cleaning services. We deliver quality, reliability, and spotless results every time.' />
+        
+                 
+                </Helmet>
      
       <BreadCrumb title='Our Partners' item1='Client' />
       

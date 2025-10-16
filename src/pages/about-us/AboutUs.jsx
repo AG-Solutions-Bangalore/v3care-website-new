@@ -11,8 +11,8 @@ import {
   NO_IMAGE_URL,
   TESTIMONIAL_IMAGE_URL,
 } from "../../config/BaseUrl";
-import DefaultHelmet from "../../components/DefaultHelmet/DefaultHelmet";
 import BreadCrumb from "../../components/BreadCrumb/BreadCrumb";
+import { Helmet } from "react-helmet-async";
 const promisesData = [
   {
     title: "Trained Staff",
@@ -78,7 +78,18 @@ const AboutUs = () => {
 
   return (
     <>
-      <DefaultHelmet />
+             <Helmet>
+               <title>
+               About V3Care | Professional Cleaning Experts
+               </title>
+             
+                 <meta name="title" content='About V3Care | Professional Cleaning Experts' />
+             
+           
+                 <meta name="description" content='Learn about V3Care, providing professional cleaning services. Trusted, reliable, and affordable solutions to keep homes and offices spotless and hygienic.' />
+     
+              
+             </Helmet>
 
       <BreadCrumb title="About Us" item1="About Us" />
 

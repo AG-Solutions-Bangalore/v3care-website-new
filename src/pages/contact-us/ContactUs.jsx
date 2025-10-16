@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 
 import axios from 'axios';
 import { BASE_URL } from '../../config/BaseUrl';
-import DefaultHelmet from '../../components/DefaultHelmet/DefaultHelmet';
 import BreadCrumb from '../../components/BreadCrumb/BreadCrumb';
 import { Mail, Phone } from 'react-feather';
+import { Helmet } from 'react-helmet-async';
 
 
 const ContactUs = () => {
@@ -122,7 +122,18 @@ const ContactUs = () => {
   
   return (
     <>
-      <DefaultHelmet/>
+    <Helmet>
+               <title>
+               Contact V3Care | Home Deep Cleaning Services
+               </title>
+             
+                 <meta name="title" content='Contact V3Care | Home Deep Cleaning Services' />
+             
+           
+                 <meta name="description" content='Get in touch with V3Care for reliable home deep cleaning services. Contact us today for spotless results and expert cleaning assistance!' />
+     
+              
+             </Helmet>
 
       <BreadCrumb title='Contact Us' item1='Contact Us'/>
       <div className="relative">
