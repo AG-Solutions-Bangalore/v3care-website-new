@@ -295,9 +295,9 @@ const ServiceDetails = () => {
   
         <div className="py-8">
           <div className="max-w-[85rem]  mx-auto px-4 sm:px-6 lg:px-8">
-          <p className='font-medium text-xl pb-2 px-2 text-transparent  bg-gradient-to-r from-red-700  to-blue-900 bg-clip-text'>
+          {/* <p className='font-medium text-xl pb-2 px-2 text-transparent  bg-gradient-to-r from-red-700  to-blue-900 bg-clip-text'>
           Weekend rates should be set differently from weekday prices 
-          </p>
+          </p> */}
             <div className="flex flex-col lg:flex-row gap-6">
               <div className="lg:w-7/12">
                 <div className="bg-white rounded-lg shadow-sm">
