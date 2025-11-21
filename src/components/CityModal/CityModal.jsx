@@ -6,8 +6,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { BASE_URL } from '../../config/BaseUrl';
 import { clearCart } from '../../redux/slices/CartSlice';
 import { Loader } from 'lucide-react';
+import { useParams, useSearchParams } from 'react-router-dom';
 
 const CityModal = ({ onSelectCity, onClose, selectedCity }) => {
+
+ 
   const [isVisible, setIsVisible] = useState(false);
   const [hoveredCity, setHoveredCity] = useState(null);
   const [branches, setBranches] = useState([]);
@@ -23,6 +26,17 @@ const CityModal = ({ onSelectCity, onClose, selectedCity }) => {
   const cartItems = useSelector((state) => state.cart.items);
 
   const apiKey = import.meta.env.VITE_GOOGLE_MAPS_KEY 
+
+useEffect(() => {
+  const currentUrl = window.location.href;
+  const searchParams = new URLSearchParams(window.location.search);
+  const paramsObj = Object.fromEntries(searchParams.entries());
+const redefinedUrl = currentUrl.split('/')[3].split('-').reverse()[0]
+
+
+  console.log("Current URL:", currentUrl);
+  console.log("Search Parameters:", encodeURI(redefinedUrl));
+}, [selectedCity]);
 
   const fetchCities = async () => {
     try {
