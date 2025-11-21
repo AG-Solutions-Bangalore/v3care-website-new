@@ -20,7 +20,19 @@ import NotFound from '../not-found/NotFound';
 const CategoriesList = () => {
   const { id, category_name } = useParams();
 
- const location = useLocation();
+  // console.log(id,category_name)
+
+
+const cityLower = (localStorage.getItem("city") || "").toLowerCase();
+
+const cleanCategoryName = useMemo(() => {
+  if (!category_name || !cityLower) return category_name;
+  const suffix = `-in-${cityLower}`;
+  return category_name.endsWith(suffix)
+    ? category_name.replace(suffix, "")
+    : category_name;
+}, [category_name, cityLower]);
+
   const branchId = localStorage.getItem("branch_id")
   const city = localStorage.getItem("city")
   /* category start */

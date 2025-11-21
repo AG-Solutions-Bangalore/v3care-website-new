@@ -10,7 +10,7 @@ import { BASE_URL, SERVICE_SUPER_IMAGE_URL, NO_IMAGE_URL } from '../../../config
 
 const HeroSection = () => {
   const branchId = localStorage.getItem("branch_id");
-
+  const city = (localStorage.getItem("city") || "").toLowerCase();
  
   const { data: categories, isLoading, error } = useQuery({
     queryKey: ['serviceSuperCategories', branchId],
@@ -73,7 +73,8 @@ const HeroSection = () => {
                     <React.Fragment key={index}>
                       <Link 
                       title={`${category.name}`}
-                        to={`/${encodeURIComponent(category.url)}`}
+                        // to={`/${encodeURIComponent(category.url)}`}
+                        to={`/${encodeURIComponent(category.url)}-in-${encodeURIComponent(city)}`}
                         className="hero-section-service-item"
                       >
                         <div className="hero-section-service-icon">
