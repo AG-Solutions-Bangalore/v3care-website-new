@@ -14,6 +14,7 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 import 'react-lazy-load-image-component/src/effects/blur.css';
 import { BASE_URL, NO_IMAGE_URL, SERVICE_IMAGE_URL, SERVICE_SUB_IMAGE_URL, SERVICE_SUPER_IMAGE_URL } from '../../config/BaseUrl';
 import NotFound from '../not-found/NotFound';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 
 
 
@@ -22,19 +23,26 @@ const CategoriesList = () => {
 
   // console.log(id,category_name)
 
+const cityLower = (useLocalStorage("city") || "").toLowerCase();
+  const branchId = useLocalStorage("branch_id");
+  const city = useLocalStorage("city");
 
-const cityLower = (localStorage.getItem("city") || "").toLowerCase();
 
 const cleanCategoryName = useMemo(() => {
   if (!category_name || !cityLower) return category_name;
-  const suffix = `-in-${cityLower}`;
-  return category_name.endsWith(suffix)
-    ? category_name.replace(suffix, "")
-    : category_name;
+  
+  // Remove any existing city suffix (handle multiple cases)
+  let cleanedName = category_name;
+  const citySuffixRegex = /-in-[a-zA-Z]+$/;
+  
+  // Keep removing city suffixes until none left
+  while (citySuffixRegex.test(cleanedName)) {
+    cleanedName = cleanedName.replace(citySuffixRegex, '');
+  }
+  
+  return cleanedName;
 }, [category_name, cityLower]);
 
-  const branchId = localStorage.getItem("branch_id")
-  const city = localStorage.getItem("city")
   /* category start */
    const [categories, setCategories] = useState([]);
       const [isLoading, setIsLoading] = useState(true);
@@ -64,9 +72,9 @@ const cleanCategoryName = useMemo(() => {
         image: item.serviceSuper_image,
         url: item.serviceSuper_url
       })) || []);
-      if (category_name) {
+      if (cleanCategoryName) {
         const isValid = superCategories.some(
-          (cat) => cat.serviceSuper_url === category_name
+          (cat) => cat.serviceSuper_url === cleanCategoryName
         );
         setValidCategory(isValid);
       } else {
@@ -87,8 +95,8 @@ const cleanCategoryName = useMemo(() => {
       setLoading(true);
       setError(null);
       const url = id 
-        ? `${BASE_URL}/api/panel-fetch-web-service-out/${category_name}/${branchId}`
-        : `${BASE_URL}/api/panel-fetch-web-service-out/${category_name}/2`;
+        ? `${BASE_URL}/api/panel-fetch-web-service-out/${cleanCategoryName}/${branchId}`
+        : `${BASE_URL}/api/panel-fetch-web-service-out/${cleanCategoryName}/2`;
       
       const response = await axios.get(url);
       setServices(response.data.service || []);
@@ -153,14 +161,43 @@ const cleanCategoryName = useMemo(() => {
     return `${SERVICE_SUPER_IMAGE_URL}/${image}`;
   };
  useEffect(() => {
-      fetchCategories();
-    }, []);
+  fetchCategories();
+}, [branchId, city]);
 
-    useEffect(() => {
-      if (validCategory === true) {
-        fetchServices();
-      }
-    }, [category_name, validCategory]);
+useEffect(() => {
+  if (validCategory === true && branchId && city) {
+    fetchServices();
+  }
+}, [branchId, city, validCategory]);
+
+// Add this useEffect to handle city changes while on the same page
+useEffect(() => {
+  const handleCityChange = () => {
+    if (validCategory === true) {
+      fetchServices();
+      fetchCategories(); // Also refetch categories
+    }
+  };
+
+  window.addEventListener('localStorageChange', handleCityChange);
+  
+  return () => {
+    window.removeEventListener('localStorageChange', handleCityChange);
+  };
+}, [validCategory]);
+
+useEffect(() => {
+  if (cleanCategoryName && cityLower) {
+    const currentPath = window.location.pathname;
+    const newPath = `/${cleanCategoryName}-in-${cityLower}`;
+    
+   
+    if (currentPath !== newPath && !currentPath.includes(`-in-${cityLower}`)) {
+      window.history.replaceState(null, '', newPath);
+    }
+  }
+}, [cleanCategoryName, cityLower]);
+
   const SkeletonLoader = () => {
     return (
       <div className="categories-grid">
@@ -255,7 +292,7 @@ const cleanCategoryName = useMemo(() => {
                   {categories.map((category) => (
                     <Link 
                       key={category.id}
-                      to={`/${encodeURIComponent(category.url)}`}
+                   to={`/${encodeURIComponent(category.url)}-in-${encodeURIComponent(cityLower)}`}
                       className="category-item"
                     >
                       <div className="category-card">
@@ -353,10 +390,10 @@ const cleanCategoryName = useMemo(() => {
     {categories.map((category) => (
       <div 
         key={category.id}
-        className={`service-grid-category-item ${category_name === category.url ? 'active' : ''}`}
+        className={`service-grid-category-item ${cleanCategoryName === category.url ? 'active' : ''}`}
       >
         <Link 
-          to={`/${encodeURIComponent(category.url)}`}
+          to={`/${encodeURIComponent(category.url)}-in-${encodeURIComponent(cityLower)}`}
           className="service-grid-category-card"
         >
          <LazyLoadImage

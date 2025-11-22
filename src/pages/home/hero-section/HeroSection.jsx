@@ -7,13 +7,14 @@ import axios from 'axios';
 
 import './HeroSection.css';
 import { BASE_URL, SERVICE_SUPER_IMAGE_URL, NO_IMAGE_URL } from '../../../config/BaseUrl';
+import { useLocalStorage } from '../../../hooks/useLocalStorage';
 
 const HeroSection = () => {
-  const branchId = localStorage.getItem("branch_id");
-  const city = (localStorage.getItem("city") || "").toLowerCase();
+  const branchId = useLocalStorage("branch_id");
+    const city = (useLocalStorage("city") || "").toLowerCase();
  
-  const { data: categories, isLoading, error } = useQuery({
-    queryKey: ['serviceSuperCategories', branchId],
+  const { data: categories, isLoading, error,refetch } = useQuery({
+    queryKey: ['serviceSuperCategories', branchId,city],
     queryFn: async () => {
       const response = await axios.get(`${BASE_URL}/api/panel-fetch-web-service-super-out/${branchId}`);
       return response.data.serviceSuper?.map((item) => ({
@@ -23,9 +24,13 @@ const HeroSection = () => {
         url: item.serviceSuper_url
       })) || [];
     },
-    staleTime: 60 * 60 * 1000, 
-    retry: 2,
+   
   });
+  React.useEffect(() => {
+    if (branchId && city) {
+      refetch();
+    }
+  }, [branchId, city, refetch]);
 
   const getImageUrl = (image) => {
     if (!image) {
