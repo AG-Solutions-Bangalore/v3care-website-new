@@ -6,11 +6,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { BASE_URL } from '../../config/BaseUrl';
 import { clearCart } from '../../redux/slices/CartSlice';
 import { Loader } from 'lucide-react';
-import { useParams, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const CityModal = ({ onSelectCity, onClose, selectedCity }) => {
-
- 
   const [isVisible, setIsVisible] = useState(false);
   const [hoveredCity, setHoveredCity] = useState(null);
   const [branches, setBranches] = useState([]);
@@ -22,21 +20,46 @@ const CityModal = ({ onSelectCity, onClose, selectedCity }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [geolocationStatus, setGeolocationStatus] = useState('idle'); 
   const [geolocationError, setGeolocationError] = useState(null);
+  const [urlCity, setUrlCity] = useState(null);
+  const [urlCityMatched, setUrlCityMatched] = useState(false);
+  
   const dispatch = useDispatch();
   const cartItems = useSelector((state) => state.cart.items);
+  const navigate = useNavigate();
 
-  const apiKey = import.meta.env.VITE_GOOGLE_MAPS_KEY 
+  const apiKey = import.meta.env.VITE_GOOGLE_MAPS_KEY;
 
-useEffect(() => {
-  const currentUrl = window.location.href;
-  const searchParams = new URLSearchParams(window.location.search);
-  const paramsObj = Object.fromEntries(searchParams.entries());
-const redefinedUrl = currentUrl.split('/')[3].split('-').reverse()[0]
+  // Extract city from URL
+  useEffect(() => {
+    const extractCityFromUrl = () => {
+      try {
+        const currentUrl = window.location.href;
+        const urlParts = currentUrl.split('/');
+        
+        // Get the last part of the URL and clean it up
+        if (urlParts.length > 3) {
+          const lastPart = urlParts[3];
+          const cityFromUrl = lastPart.split('-').reverse()[0].toLowerCase().trim();
+          
+          // Only set if we have a valid city name (not empty and not just numbers/special chars)
+          if (cityFromUrl && cityFromUrl.length > 1 && /[a-zA-Z]/.test(cityFromUrl)) {
+            console.log("City extracted from URL:", cityFromUrl);
+            setUrlCity(cityFromUrl);
+            return cityFromUrl;
+          }
+        }
+        console.log("No valid city found in URL");
+        setUrlCity(null);
+        return null;
+      } catch (error) {
+        console.error("Error extracting city from URL:", error);
+        setUrlCity(null);
+        return null;
+      }
+    };
 
-
-  console.log("Current URL:", currentUrl);
-  console.log("Search Parameters:", encodeURI(redefinedUrl));
-}, [selectedCity]);
+    extractCityFromUrl();
+  }, []);
 
   const fetchCities = async () => {
     try {
@@ -45,9 +68,11 @@ const redefinedUrl = currentUrl.split('/')[3].split('-').reverse()[0]
       const response = await axios.get(`${BASE_URL}/api/panel-fetch-web-branch-out`);
       const branchList = response.data?.branch || [];
       setBranches(branchList);
+      return branchList;
     } catch (error) {
       console.error('Failed to fetch cities:', error);
       setError('Failed to load cities. Please try again later.');
+      return [];
     } finally {
       setIsLoading(false);
     }
@@ -125,27 +150,69 @@ const redefinedUrl = currentUrl.split('/')[3].split('-').reverse()[0]
     );
   };
 
-  useEffect(() => {
-    fetchCities();
-    const timer = setTimeout(() => setIsVisible(true), 50);
-    return () => clearTimeout(timer);
-  }, []);
+  // Check if URL city matches any branch
+  const checkUrlCityMatch = (branchList, urlCityName) => {
+    if (!urlCityName || !branchList.length) return false;
+
+    const matchedBranch = branchList.find(branch => 
+      branch.branch_name.toLowerCase() === urlCityName.toLowerCase()
+    );
+
+    if (matchedBranch) {
+      console.log(`URL city "${urlCityName}" matched with branch "${matchedBranch.branch_name}"`);
+      setUrlCityMatched(true);
+      setSelectedBranch(matchedBranch);
+      
+      // Auto-select the matched city
+      setTimeout(() => {
+        if (cartItems.length > 0) {
+          setShowConfirmation(true);
+        } else {
+          proceedWithCityChange(matchedBranch);
+        }
+      }, 500);
+      
+      return true;
+    } else {
+      console.log(`URL city "${urlCityName}" not found in branches`);
+      setUrlCityMatched(false);
+      return false;
+    }
+  };
 
   useEffect(() => {
-    if (branches.length > 0) {
+    const initializeCitySelection = async () => {
+      const branchList = await fetchCities();
+      
       // Check if we already have a city and branch_id in localStorage
       const storedCity = localStorage.getItem('selectedCity');
       const storedBranchId = localStorage.getItem('selectedBranchId');
       
-      // Only request location if we don't have a stored city
-      if (!storedCity || !storedBranchId) {
-        requestLocation();
-      } else {
+      if (storedCity && storedBranchId) {
         // If we have stored values, set geolocation status to idle
         setGeolocationStatus('idle');
+        return;
       }
-    }
-  }, [branches]);
+      
+      // If URL has city data, try to match it
+      if (urlCity && branchList.length > 0) {
+        const isMatched = checkUrlCityMatch(branchList, urlCity);
+        if (isMatched) return; // Stop here if URL city matched
+      }
+      
+      // If no URL city or no match, proceed with geolocation
+      if (branchList.length > 0) {
+        requestLocation();
+      }
+    };
+
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+      initializeCitySelection();
+    }, 50);
+    
+    return () => clearTimeout(timer);
+  }, [urlCity]);
 
   const handleClose = () => {
     setIsVisible(false);
@@ -287,7 +354,7 @@ const redefinedUrl = currentUrl.split('/')[3].split('-').reverse()[0]
         <animate attributeName="opacity" values="0.7;1;0.7" dur="1.5s" repeatCount="indefinite"/>
       </text>
       
-      <text class="location-subtext" x="0" y="25" text-anchor="middle" font-family "Arial, sans-serif" font-size="18" fill="#ef4444">
+      <text class="location-subtext" x="0" y="25" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="#ef4444">
         Please wait while we locate you
       </text>
     </g>
@@ -320,11 +387,11 @@ const redefinedUrl = currentUrl.split('/')[3].split('-').reverse()[0]
     overlay.appendChild(svgContainer);
     document.body.appendChild(overlay);
 
-    // Auto-remove after 5 seconds and reload page
+    // Auto-remove after 1.2 seconds and navigate to home
     setTimeout(() => {
-        document.body.removeChild(overlay);
-        document.head.removeChild(styleSheet);
-        window.location.reload();
+      document.body.removeChild(overlay);
+      document.head.removeChild(styleSheet);
+       window.location.reload();
     }, 1200);
   };
 
@@ -350,10 +417,9 @@ const redefinedUrl = currentUrl.split('/')[3].split('-').reverse()[0]
       dispatch(clearCart());
     }
     
-    
     localStorage.setItem('selectedCity', branch.branch_name);
     localStorage.setItem('selectedBranchId', branch.id);
-    
+      window.dispatchEvent(new Event('localStorageChange'));
     onSelectCity(branch.branch_name, branch.id);
     showLoadingOverlay(branch.branch_name);
   };
@@ -371,12 +437,10 @@ const redefinedUrl = currentUrl.split('/')[3].split('-').reverse()[0]
     return className;
   };
 
-  
   const filteredBranches = branches.filter(branch =>
     branch.branch_name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  
   const handleRetryLocation = () => {
     setGeolocationError(null);
     requestLocation();
@@ -401,19 +465,23 @@ const redefinedUrl = currentUrl.split('/')[3].split('-').reverse()[0]
               ? 'Confirm City Change' 
               : alreadySelected 
                 ? 'Already Selected' 
-                : 'Select Your City'}
+                : urlCityMatched
+                  ? 'City Detected from URL'
+                  : 'Select Your City'}
           </h3>
           <p className="city-location-subtitle">
             {showConfirmation 
               ? `You have ${cartItems.length} item(s) in your cart. Changing city will clear your cart.`
               : alreadySelected
                 ? `${selectedCity} is already your selected city.`
-                : 'Choose your location to see local services'}
+                : urlCityMatched
+                  ? `We detected "${urlCity}" from your URL. Auto-selecting your city...`
+                  : 'Choose your location to see local services'}
           </p>
         </div>
 
-        
-        {!isLoading && !error && !showConfirmation && geolocationStatus !== 'loading' && (
+        {/* Show search only when not loading, not in confirmation, and URL city not matched */}
+        {!isLoading && !error && !showConfirmation && !urlCityMatched && geolocationStatus !== 'loading' && (
           <div className="city-location-search-container">
             <input
               type="text"
@@ -467,6 +535,11 @@ const redefinedUrl = currentUrl.split('/')[3].split('-').reverse()[0]
                   Confirm Change
                 </button>
               </div>
+            </div>
+          ) : urlCityMatched ? (
+            <div className="city-location-detecting-container">
+              <Loader className='text-green-500 animate-spin' size={32} />
+              <p className="mt-3 text-gray-600">Auto-selecting {selectedBranch?.branch_name} from URL...</p>
             </div>
           ) : geolocationStatus === 'loading' ? (
             <div className="city-location-detecting-container">

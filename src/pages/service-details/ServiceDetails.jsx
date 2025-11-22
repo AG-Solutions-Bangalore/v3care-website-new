@@ -15,6 +15,7 @@ import { BASE_URL ,  NO_IMAGE_URL,  SERVICE_DETAILS_IMAGE_URL,} from '../../conf
 import { addToCart } from '../../redux/slices/CartSlice';
 import { ChevronDown, ChevronUp, Loader } from 'lucide-react';
 import { getCurrentDate } from '../../utils/getCurrentDate';
+import { useLocalStorage } from '../../hooks/useLocalStorage';
 const ServiceDetails = () => {
   const dispatch = useDispatch();
 
@@ -38,6 +39,7 @@ const ServiceDetails = () => {
   const navigate = useNavigate();
   const branch_id = localStorage.getItem('branch_id');
   const current_date = getCurrentDate()
+  const cityLower = (useLocalStorage("city") || "").toLowerCase();
   const city = localStorage.getItem('city') || 'your area';
   const message = `We're not available in ${city} at the moment, but we're expanding and will be there soon!`;
 
@@ -81,6 +83,28 @@ const ServiceDetails = () => {
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+ 
+useEffect(() => {
+  if (cityLower && service_name) {
+    const currentPath = window.location.pathname;
+    const pathParts = currentPath.split('/');
+    
+
+    if (pathParts.length >= 2) {
+      const categoryPart = pathParts[1];
+      
+      const cleanCategoryName = categoryPart.replace(/-in-[a-zA-Z]+$/, '');
+      const newCategoryPart = `${cleanCategoryName}-in-${cityLower}`;
+      pathParts[1] = newCategoryPart;
+      
+      const newPath = pathParts.join('/');
+      
+      if (currentPath !== newPath) {
+        window.history.replaceState(null, '', newPath);
+      }
+    }
+  }
+}, [cityLower, service_name, service_sub_name]);
   const fetchServicePrices = async () => {
     try {
       setPriceLoading(true);

@@ -136,13 +136,13 @@ const ServiceList = () => {
   };
 
   const navigateToServiceDetails = (serviceId, serviceName, serviceUrl) => {
-    navigate(`/${activeSuperCategory}/${encodeURIComponent(serviceUrl)}/pricing`);
+    navigate(`/${activeSuperCategory}-in-${city.toLowerCase()}/${encodeURIComponent(serviceUrl)}/pricing`);
   };
 
   const navigateToSubServiceDetails = (subService) => {
     if (!selectedService || !activeSuperCategory) return;
     
-    navigate(`/${activeSuperCategory}/${encodeURIComponent(selectedService.service_slug)}/${encodeURIComponent(subService.service_sub_slug)}/pricing`);
+    navigate(`/${activeSuperCategory}-in-${city.toLowerCase()}/${encodeURIComponent(selectedService.service_slug)}/${encodeURIComponent(subService.service_sub_slug)}/pricing`);
   };
 
   const handleSuperCategoryClick = (superCategoryId) => {
