@@ -21,7 +21,7 @@ import { useLocalStorage } from '../../hooks/useLocalStorage';
 const CategoriesList = () => {
   const { id, category_name } = useParams();
 
-  // console.log(id,category_name)
+  
 
 const cityLower = (useLocalStorage("city") || "").toLowerCase();
   const branchId = useLocalStorage("branch_id");
@@ -30,18 +30,20 @@ const cityLower = (useLocalStorage("city") || "").toLowerCase();
 
 const cleanCategoryName = useMemo(() => {
   if (!category_name || !cityLower) return category_name;
-  
-  // Remove any existing city suffix (handle multiple cases)
+
   let cleanedName = category_name;
   const citySuffixRegex = /-in-[a-zA-Z]+$/;
   
-  // Keep removing city suffixes until none left
+
   while (citySuffixRegex.test(cleanedName)) {
     cleanedName = cleanedName.replace(citySuffixRegex, '');
   }
   
   return cleanedName;
 }, [category_name, cityLower]);
+
+
+console.log("gfdg",cleanCategoryName)
 
   /* category start */
    const [categories, setCategories] = useState([]);
@@ -168,7 +170,7 @@ useEffect(() => {
   if (validCategory === true && branchId && city) {
     fetchServices();
   }
-}, [branchId, city, validCategory]);
+}, [branchId, city, validCategory,cleanCategoryName]);
 
 // Add this useEffect to handle city changes while on the same page
 useEffect(() => {
@@ -387,7 +389,10 @@ useEffect(() => {
     </button>
   </div>
   <div className="service-grid-list">
-    {categories.map((category) => (
+    {categories.map((category) => 
+      {
+        return (
+          <>
       <div 
         key={category.id}
         className={`service-grid-category-item ${cleanCategoryName === category.url ? 'active' : ''}`}
@@ -411,7 +416,8 @@ useEffect(() => {
           <h1 className="service-grid-category-name">{category.name}</h1>
         </Link>
       </div>
-    ))}
+      </>
+    )  })}
   </div>
 </div>
 

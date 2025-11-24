@@ -101,55 +101,72 @@ const CityModal = ({ onSelectCity, onClose, selectedCity }) => {
     }
   };
 
-  // Function to request location permission and detect city
-  const requestLocation = () => {
+
+  const requestLocation = (branchList = branches) => {
     if (!navigator.geolocation) {
       setGeolocationError("Geolocation is not supported by this browser.");
       setGeolocationStatus('error');
       return;
     }
-
+  
+    // Check if permission is already granted
+    if (navigator.permissions) {
+      navigator.permissions.query({ name: 'geolocation' }).then((permissionStatus) => {
+        if (permissionStatus.state === 'denied') {
+          setGeolocationError("Location access denied. Please enable location access in your browser settings.");
+          setGeolocationStatus('error');
+          return;
+        }
+      });
+    }
+  
     setGeolocationStatus('loading');
-    navigator.geolocation.getCurrentPosition(
-      async (position) => {
-        const { latitude, longitude } = position.coords;
-        const detectedCity = await getCityFromCoords(latitude, longitude);
-        
-        if (detectedCity) {
-          // Check if detected city exists in our branches
-          const matchedBranch = branches.find(branch => 
-            branch.branch_name.toLowerCase() === detectedCity.toLowerCase()
-          );
-          
-          if (matchedBranch) {
-            setGeolocationStatus('success');
-            // Auto-select the detected city
-            setTimeout(() => {
-              if (cartItems.length > 0) {
-                setSelectedBranch(matchedBranch);
-                setShowConfirmation(true);
-              } else {
-                proceedWithCityChange(matchedBranch);
-              }
-            }, 1000);
+  
+    // Add a small delay to ensure the permission prompt is shown
+    setTimeout(() => {
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const { latitude, longitude } = position.coords;
+          const detectedCity = await getCityFromCoords(latitude, longitude);
+  
+          if (detectedCity) {
+            // Use the passed branchList instead of this.state.branches
+            const matchedBranch = branchList.find(branch =>
+              branch.branch_name.toLowerCase() === detectedCity.toLowerCase()
+            );
+  
+            if (matchedBranch) {
+              setGeolocationStatus('success');
+              setTimeout(() => {
+                if (cartItems.length > 0) {
+                  setSelectedBranch(matchedBranch);
+                  setShowConfirmation(true);
+                } else {
+                  proceedWithCityChange(matchedBranch);
+                }
+              }, 1000);
+            } else {
+              setGeolocationStatus('error');
+              setGeolocationError(`We don't provide services in ${detectedCity}. Please choose another location.`);
+            }
           } else {
             setGeolocationStatus('error');
-            setGeolocationError(`We don't provide services in ${detectedCity}. Please choose another location.`);
+            setGeolocationError("Could not detect your city. Please select manually.");
           }
-        } else {
+        },
+        (err) => {
+          console.error("❌ Location error:", err);
+          if (err.code === err.PERMISSION_DENIED) {
+            setGeolocationError("Location access denied. Please enable location access and try again.");
+          } else {
+            setGeolocationError("Could not detect your location. Please select your city manually.");
+          }
           setGeolocationStatus('error');
-          setGeolocationError("Could not detect your city. Please select manually.");
-        }
-      },
-      (err) => {
-        console.error("❌ Location error:", err);
-        setGeolocationError("Location access denied. Please select your city manually.");
-        setGeolocationStatus('error');
-      },
-      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
-    );
+        },
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+      );
+    }, 500); // Delay of 500ms
   };
-
   // Check if URL city matches any branch
   const checkUrlCityMatch = (branchList, urlCityName) => {
     if (!urlCityName || !branchList.length) return false;
@@ -180,7 +197,7 @@ const CityModal = ({ onSelectCity, onClose, selectedCity }) => {
     }
   };
 
-  useEffect(() => {
+ 
     const initializeCitySelection = async () => {
       const branchList = await fetchCities();
       
@@ -200,20 +217,21 @@ const CityModal = ({ onSelectCity, onClose, selectedCity }) => {
         if (isMatched) return; // Stop here if URL city matched
       }
       
-      // If no URL city or no match, proceed with geolocation
+      // If no URL city or no match, AND we have branches loaded, proceed with geolocation
       if (branchList.length > 0) {
-        requestLocation();
+        requestLocation(branchList); // Pass branches to requestLocation
       }
     };
 
+   
+  useEffect(() => {
     const timer = setTimeout(() => {
       setIsVisible(true);
       initializeCitySelection();
     }, 50);
     
     return () => clearTimeout(timer);
-  }, [urlCity]);
-
+  }, [urlCity, branches.length]); // Add branches.length as dependency
   const handleClose = () => {
     setIsVisible(false);
     setTimeout(() => {
@@ -443,7 +461,7 @@ const CityModal = ({ onSelectCity, onClose, selectedCity }) => {
 
   const handleRetryLocation = () => {
     setGeolocationError(null);
-    requestLocation();
+    requestLocation(branches); // Pass current branches
   };
 
   return (
