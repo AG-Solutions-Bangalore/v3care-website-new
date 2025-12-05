@@ -62,7 +62,7 @@ const JoinUs = () => {
         position: 'fixed',
         right: '1rem',
         bottom: '2rem',
-        zIndex: 50,
+        zIndex: 99,
         transition: 'all 0.3s ease-in-out',
       }}
       onMouseEnter={handleMouseEnter}
@@ -75,7 +75,7 @@ const JoinUs = () => {
           flexDirection: 'column-reverse',
           alignItems: 'center',
           gap: '12px',
-          height: isHovered ? 'auto' : '52px', // Only take space of one button when not hovered
+          height: isHovered ? 'auto' : '52px', 
         }}
       >
         {/* Main WhatsApp button (always visible) */}
