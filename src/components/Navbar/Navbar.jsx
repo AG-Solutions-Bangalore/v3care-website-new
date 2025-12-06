@@ -373,6 +373,8 @@ const Navbar = () => {
         </div>
       )}
 
+      
+
       <header className="bg-white shadow-md w-full sticky top-0 z-50">
         <div className="max-w-8xl mx-auto px-2 ">
           <div className="flex items-center justify-between h-20">
@@ -383,7 +385,6 @@ const Navbar = () => {
                   src={logoNav} 
                   className="h-16 w-auto" 
                   alt="Company Logo"
-                
                   loading="eager"
                 />
               </Link>
@@ -430,6 +431,15 @@ const Navbar = () => {
             {/* Right side actions */}
             <div className="flex items-center space-x-4">
               {/* City Selector */}
+             <div className="hidden lg:flex flex-row items-center gap-2">
+    <Icon.Phone size={14} className="text-black" />
+    <a 
+      href="tel:+919880778585" 
+      className="text-sm hover:text-gray-900 text-gray-700 transition-colors"
+    >
+      +91 98807 78585
+    </a>
+  </div>
               <button 
                 onClick={handleCityClick}
                 className="hidden hover:cursor-pointer md:flex items-center text-gray-700 hover:text-black px-3 py-2 text-sm font-medium"
@@ -440,11 +450,19 @@ const Navbar = () => {
 
               {/* Become Partner */}
               <Link 
+                title="Book Now" 
+                to="/service" 
+                className="hidden lg:flex items-center bg-black text-white border border-black rounded-lg px-4 py-2 text-sm font-medium hover:bg-white hover:text-black transition-colors"
+              >
+                <Icon.Calendar size={16} className="mr-1" />
+                <span>Book Now</span>
+              </Link>
+              <Link 
                 title="Become Partner" 
                 to="/become-partner" 
-                className="hidden md:flex items-center bg-white text-black border border-black rounded-lg px-4 py-2 text-sm font-medium hover:bg-black hover:text-white transition-colors"
+                className="hidden md:flex lg:hidden items-center bg-black text-white border border-black rounded-lg px-4 py-2 text-sm font-medium hover:bg-white hover:text-black transition-colors"
               >
-                <Icon.User size={16} className="mr-1" />
+                <Icon.Briefcase size={16} className="mr-1" />
                 <span>Become Partner</span>
               </Link>
 

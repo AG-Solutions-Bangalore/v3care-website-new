@@ -92,6 +92,9 @@ const Footer = () => {
                   <li>
                     <Link title='Blog' to='/apply-job'>Apply For Job</Link>
                   </li>
+                  <li>
+                    <Link title='Become Partner' to='/become-partner'>Become Partner</Link>
+                  </li>
                 </ul>
               </div>
             </div>

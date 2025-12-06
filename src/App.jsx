@@ -7,6 +7,7 @@ import SmoothScroll from './components/SmoothScroll/SmoothScroll';
 import CityModal from './components/CityModal/CityModal';
 import LoadingBar from './components/loadingBar/LoadingBar';
 import Location from './pages/home/Location';
+import PhoneUs from './components/JoinUs/PhoneUs';
 
 
 // Lazy load components for better performance
@@ -56,6 +57,7 @@ function App() {
     <>
       <CanonicalTag/>
        <JoinUs/>
+       <PhoneUs/>
     
           <SmoothScroll/>
            {showCityModal && (
